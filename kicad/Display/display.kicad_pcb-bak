@@ -85,9 +85,9 @@
       (subtractmaskfromsilk false)
       (outputformat 1)
       (mirror false)
-      (drillshape 0)
+      (drillshape 1)
       (scaleselection 1)
-      (outputdirectory "gbr/"))
+      (outputdirectory ""))
   )
 
   (net 0 "")
@@ -144,6 +144,7 @@
     (via_drill 0.4)
     (uvia_dia 0.3)
     (uvia_drill 0.1)
+    (add_net GND)
     (add_net MISO)
     (add_net MOSI)
     (add_net "Net-(C1-Pad1)")
@@ -195,7 +196,6 @@
     (uvia_dia 0.3)
     (uvia_drill 0.1)
     (add_net +5V)
-    (add_net GND)
   )
 
   (net_class ac ""

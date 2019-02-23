@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name display)(type Legacy)(uri /home/lenart/git/HeatingRegulationControler/kicad/Display/display.lib)(options "")(descr ""))
+  (lib (name "Raspberry_Pi_Zero_W_(v1.3)")(type Legacy)(uri "/tmp/pcb/Raspberry_Pi_Zero_W_(v1.3)/KiCad/Raspberry_Pi_Zero_W_(v1.3).lib")(options "")(descr ""))
+)
