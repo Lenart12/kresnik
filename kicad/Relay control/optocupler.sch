@@ -42,7 +42,7 @@ U 1 1 5C6067E6
 P 6900 1450
 F 0 "J4" H 6873 1330 50  0000 R CNN
 F 1 "Conn_01x04_Male" H 6873 1421 50  0000 R CNN
-F 2 "Connector_JST:JST_NV_B04P-NV_1x04_P5.00mm_Vertical" H 6900 1450 50  0001 C CNN
+F 2 "Connector_Phoenix_MSTB:PhoenixContact_MSTBVA_2,5_4-G_1x04_P5.00mm_Vertical" H 6900 1450 50  0001 C CNN
 F 3 "~" H 6900 1450 50  0001 C CNN
 	1    6900 1450
 	-1   0    0    1   
@@ -218,7 +218,7 @@ U 1 1 5C60B591
 P 6900 2550
 F 0 "J5" H 6873 2430 50  0000 R CNN
 F 1 "Conn_01x04_Male" H 6873 2521 50  0000 R CNN
-F 2 "Connector_JST:JST_NV_B04P-NV_1x04_P5.00mm_Vertical" H 6900 2550 50  0001 C CNN
+F 2 "Connector_Phoenix_MSTB:PhoenixContact_MSTBVA_2,5_4-G_1x04_P5.00mm_Vertical" H 6900 2550 50  0001 C CNN
 F 3 "~" H 6900 2550 50  0001 C CNN
 	1    6900 2550
 	-1   0    0    1   
@@ -396,7 +396,7 @@ U 1 1 5C60DD7E
 P 6900 3650
 F 0 "J6" H 6873 3530 50  0000 R CNN
 F 1 "Conn_01x04_Male" H 6873 3621 50  0000 R CNN
-F 2 "Connector_JST:JST_NV_B04P-NV_1x04_P5.00mm_Vertical" H 6900 3650 50  0001 C CNN
+F 2 "Connector_Phoenix_MSTB:PhoenixContact_MSTBVA_2,5_4-G_1x04_P5.00mm_Vertical" H 6900 3650 50  0001 C CNN
 F 3 "~" H 6900 3650 50  0001 C CNN
 	1    6900 3650
 	-1   0    0    1   
@@ -572,7 +572,7 @@ U 1 1 5C610A82
 P 6900 4750
 F 0 "J7" H 6873 4630 50  0000 R CNN
 F 1 "Conn_01x04_Male" H 6873 4721 50  0000 R CNN
-F 2 "Connector_JST:JST_NV_B04P-NV_1x04_P5.00mm_Vertical" H 6900 4750 50  0001 C CNN
+F 2 "Connector_Phoenix_MSTB:PhoenixContact_MSTBVA_2,5_4-G_1x04_P5.00mm_Vertical" H 6900 4750 50  0001 C CNN
 F 3 "~" H 6900 4750 50  0001 C CNN
 	1    6900 4750
 	-1   0    0    1   
@@ -876,7 +876,6 @@ Connection ~ 5800 5700
 Wire Wire Line
 	5800 5700 5800 6200
 NoConn ~ 3050 2700
-NoConn ~ 3050 2400
 NoConn ~ 3050 2300
 NoConn ~ 2650 1900
 Wire Wire Line
@@ -901,17 +900,6 @@ Wire Wire Line
 	2650 3900 2650 4000
 Wire Wire Line
 	3250 1400 3250 4000
-$Comp
-L Connector:Conn_01x04_Female J2
-U 1 1 5C8A5D08
-P 2050 1050
-F 0 "J2" V 1990 762 50  0000 R CNN
-F 1 "Conn_01x04_Female" V 1899 762 50  0000 R CNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical" H 2050 1050 50  0001 C CNN
-F 3 "~" H 2050 1050 50  0001 C CNN
-	1    2050 1050
-	0    -1   -1   0   
-$EndComp
 $Comp
 L Device:C C9
 U 1 1 5C8A6DF2
@@ -1293,4 +1281,23 @@ Wire Wire Line
 	4800 1250 4800 1800
 Wire Wire Line
 	4800 1800 4850 1800
+$Comp
+L Connector:Conn_01x05_Female J2
+U 1 1 5C72CC15
+P 2150 1050
+F 0 "J2" V 2090 762 50  0000 R CNN
+F 1 "Conn_01x05_Female" V 1999 762 50  0000 R CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x05_P2.54mm_Vertical" H 2150 1050 50  0001 C CNN
+F 3 "~" H 2150 1050 50  0001 C CNN
+	1    2150 1050
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	3050 2400 3150 2400
+Wire Wire Line
+	3150 2400 3150 1600
+Wire Wire Line
+	3150 1600 2350 1600
+Wire Wire Line
+	2350 1600 2350 1250
 $EndSCHEMATC
