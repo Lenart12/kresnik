@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name "regulator board")(type KiCad)(uri "${KIPRJMOD}/regulator board.pretty")(options "")(descr ""))
+)
