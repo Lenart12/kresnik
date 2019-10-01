@@ -5,10 +5,8 @@ Solar and underfloor heating regulation controller
 
 # Schema
 
-![Schema](./regulator board/image/regulator board.svg)
 <img src="./regulator board/image/regulator board.svg">
 
 # PCB design
 
-![PCB design](./regulator board/image/regulator board-brd.svg)
 <img src="./regulator board/image/regulator board-brd.svg">
