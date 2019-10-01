@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP DS2482S-100
+D DS2482-100 is an I²C to 1-Wire bridge
+K I2C 1-Wire IC
+F https://utcdn.utsource.info/pdfjs/index.html?90575_DALLAS_DS2482S-100
+$ENDCMP
+#
+#End Doc Library

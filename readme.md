@@ -3,10 +3,10 @@ Solar and underfloor heating regulation controller
 
 [Information](http://lecad.si/~leon/electronics/thermo/)
 
-# Shema
+# Schema
 
-![Shema](https://i.imgur.com/GOBnLDJ.png)
+<img src="./regulator board/image/regulator board.svg">
 
-# Vezje
+# PCB design
 
-![Vezje](https://i.imgur.com/JnAUPYg.png)
+<img src="./regulator board/image/regulator board-brd.svg">
