@@ -1,3 +1,4 @@
 (sym_lib_table
   (lib (name display)(type Legacy)(uri ${KIPRJMOD}/display.lib)(options "")(descr ""))
+  (lib (name regulator-board-rescue)(type Legacy)(uri "${KIPRJMOD}/regulator board-rescue.lib")(options "")(descr ""))
 )
