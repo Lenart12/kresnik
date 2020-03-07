@@ -39,6 +39,12 @@ KeyboardInput keyboard(&display, &ts, &buttons);
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP);
 
+OneWire ds2482_0(DS2482_0);
+OneWire ds2482_1(DS2482_1);
+
+DallasTemperature tempature_1(&ds2482_0);
+DallasTemperature tempature_2(&ds2482_1);
+
 uint16_t found_ap;
 bool redraw = true;
 wl_status_t last_status;
@@ -99,7 +105,7 @@ void setup(){
 }
 
 void draw(){
-	last_draw = millis();
+	last_draw = (current_page == Page::home) ? last_draw : millis();
 	switch (current_page){
 		case Page::home:{
 			display.fillScreen(ILI9341_WHITE);

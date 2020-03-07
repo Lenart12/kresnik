@@ -83,8 +83,8 @@ static const uint16_t DEBOUNCE_TIME = 500;
 // }
 
 // ADDRESSES {
-static const uint8_t DS2482_0 = 0x18;
-static const uint8_t DS2482_1 = 0x19;
+static const uint8_t DS2482_0 = 0x19;
+static const uint8_t DS2482_1 = 0x18;
 static const uint8_t PCF8574_STATUS = 0x20;
 static const uint8_t PCF8574_THERMO = 0x21;
 static const uint8_t PCF8574_RELAY0 = 0x22;

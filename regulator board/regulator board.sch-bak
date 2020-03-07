@@ -15,7 +15,7 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L RF_Module:ESP32-WROOM-32 U8
+L regulator-board-rescue:ESP32-WROOM-32-RF_Module U8
 U 1 1 5D7BB954
 P 7200 4300
 F 0 "U8" H 7200 5700 50  0000 C CNN
@@ -26,7 +26,7 @@ F 3 "https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32_
 	1    0    0    -1  
 $EndComp
 $Comp
-L Connector:Conn_WallSocket_Earth J1
+L regulator-board-rescue:Conn_WallSocket_Earth-Connector J1
 U 1 1 5D7C3980
 P 1350 1300
 F 0 "J1" H 1650 1400 50  0000 L CNN
@@ -37,7 +37,7 @@ F 3 "~" H 1050 1400 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GNDPWR #PWR012
+L regulator-board-rescue:GNDPWR-power #PWR012
 U 1 1 5D7D33A4
 P 1050 1600
 F 0 "#PWR012" H 1050 1400 50  0001 C CNN
@@ -48,7 +48,7 @@ F 3 "" H 1050 1550 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:Varistor RV1
+L regulator-board-rescue:Varistor-Device RV1
 U 1 1 5D7D8B69
 P 2400 1200
 F 0 "RV1" H 2279 1154 50  0000 R CNN
@@ -59,7 +59,7 @@ F 3 "~" H 2400 1200 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Connector:Conn_01x04_Female J2
+L regulator-board-rescue:Conn_01x04_Female-Connector J2
 U 1 1 5D7E7919
 P 14800 1750
 F 0 "J2" H 14600 1950 50  0000 L CNN
@@ -70,7 +70,7 @@ F 3 "~" H 14800 1750 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Connector:Conn_01x04_Female J4
+L regulator-board-rescue:Conn_01x04_Female-Connector J4
 U 1 1 5D7E8F33
 P 14800 2850
 F 0 "J4" H 14600 3050 50  0000 L CNN
@@ -81,7 +81,7 @@ F 3 "~" H 14800 2850 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Connector:Conn_01x04_Female J5
+L regulator-board-rescue:Conn_01x04_Female-Connector J5
 U 1 1 5D7E9546
 P 14800 3950
 F 0 "J5" H 14600 4150 50  0000 L CNN
@@ -92,7 +92,7 @@ F 3 "~" H 14800 3950 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Connector:Conn_01x04_Female J6
+L regulator-board-rescue:Conn_01x04_Female-Connector J6
 U 1 1 5D7E9D00
 P 14800 5050
 F 0 "J6" H 14600 5250 50  0000 L CNN
@@ -139,7 +139,7 @@ Wire Wire Line
 	13200 5300 13200 4750
 Connection ~ 13200 4750
 $Comp
-L Device:R R2
+L regulator-board-rescue:R-Device R2
 U 1 1 5D81750A
 P 13600 1850
 F 0 "R2" V 13700 1850 50  0000 C CNN
@@ -208,7 +208,7 @@ Wire Wire Line
 Wire Wire Line
 	13000 4950 13350 4950
 $Comp
-L Device:C C7
+L regulator-board-rescue:C-Device C7
 U 1 1 5D84447C
 P 13950 1850
 F 0 "C7" V 13900 1950 50  0000 C CNN
@@ -221,7 +221,7 @@ $EndComp
 Wire Wire Line
 	13000 1650 13350 1650
 $Comp
-L Device:R R4
+L regulator-board-rescue:R-Device R4
 U 1 1 5D84A5DE
 P 13600 2050
 F 0 "R4" V 13700 2050 50  0000 C CNN
@@ -232,7 +232,7 @@ F 3 "~" H 13600 2050 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Device:C C8
+L regulator-board-rescue:C-Device C8
 U 1 1 5D84AA5A
 P 13950 2050
 F 0 "C8" V 13900 2150 50  0000 C CNN
@@ -261,7 +261,7 @@ Wire Wire Line
 Wire Wire Line
 	13750 2050 13800 2050
 $Comp
-L Device:R R7
+L regulator-board-rescue:R-Device R7
 U 1 1 5D8679D9
 P 13600 2950
 F 0 "R7" V 13700 2950 50  0000 C CNN
@@ -272,7 +272,7 @@ F 3 "~" H 13600 2950 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Device:C C9
+L regulator-board-rescue:C-Device C9
 U 1 1 5D8679DF
 P 13950 2950
 F 0 "C9" V 13900 3050 50  0000 C CNN
@@ -283,7 +283,7 @@ F 3 "~" H 13950 2950 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:R R9
+L regulator-board-rescue:R-Device R9
 U 1 1 5D8679E5
 P 13600 3150
 F 0 "R9" V 13700 3150 50  0000 C CNN
@@ -294,7 +294,7 @@ F 3 "~" H 13600 3150 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Device:C C10
+L regulator-board-rescue:C-Device C10
 U 1 1 5D8679EB
 P 13950 3150
 F 0 "C10" V 13900 3250 50  0000 C CNN
@@ -309,7 +309,7 @@ Wire Wire Line
 Wire Wire Line
 	13750 3150 13800 3150
 $Comp
-L Device:R R11
+L regulator-board-rescue:R-Device R11
 U 1 1 5D86B41C
 P 13600 4050
 F 0 "R11" V 13700 4050 50  0000 C CNN
@@ -320,7 +320,7 @@ F 3 "~" H 13600 4050 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Device:C C11
+L regulator-board-rescue:C-Device C11
 U 1 1 5D86B422
 P 13950 4050
 F 0 "C11" V 13900 4150 50  0000 C CNN
@@ -331,7 +331,7 @@ F 3 "~" H 13950 4050 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:R R13
+L regulator-board-rescue:R-Device R13
 U 1 1 5D86B428
 P 13600 4250
 F 0 "R13" V 13700 4250 50  0000 C CNN
@@ -342,7 +342,7 @@ F 3 "~" H 13600 4250 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Device:C C12
+L regulator-board-rescue:C-Device C12
 U 1 1 5D86B42E
 P 13950 4250
 F 0 "C12" V 13900 4350 50  0000 C CNN
@@ -357,7 +357,7 @@ Wire Wire Line
 Wire Wire Line
 	13750 4250 13800 4250
 $Comp
-L Device:R R17
+L regulator-board-rescue:R-Device R17
 U 1 1 5D86F926
 P 13600 5150
 F 0 "R17" V 13700 5150 50  0000 C CNN
@@ -368,7 +368,7 @@ F 3 "~" H 13600 5150 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Device:C C13
+L regulator-board-rescue:C-Device C13
 U 1 1 5D86F92C
 P 13950 5150
 F 0 "C13" V 13900 5250 50  0000 C CNN
@@ -379,7 +379,7 @@ F 3 "~" H 13950 5150 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:R R19
+L regulator-board-rescue:R-Device R19
 U 1 1 5D86F932
 P 13600 5350
 F 0 "R19" V 13700 5350 50  0000 C CNN
@@ -390,7 +390,7 @@ F 3 "~" H 13600 5350 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Device:C C14
+L regulator-board-rescue:C-Device C14
 U 1 1 5D86F938
 P 13950 5350
 F 0 "C14" V 13900 5450 50  0000 C CNN
@@ -405,7 +405,7 @@ Wire Wire Line
 Wire Wire Line
 	13750 5350 13800 5350
 $Comp
-L Relay_SolidState:MOC3063M U1
+L regulator-board-rescue:MOC3063M-Relay_SolidState U1
 U 1 1 5D871A6D
 P 12700 1550
 F 0 "U1" H 12700 1875 50  0000 C CNN
@@ -416,7 +416,7 @@ F 3 "http://www.fairchildsemi.com/ds/MO/MOC3061M.pdf" H 12665 1550 50  0001 L CN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Relay_SolidState:MOC3063M U4
+L regulator-board-rescue:MOC3063M-Relay_SolidState U4
 U 1 1 5D876D8A
 P 12700 2100
 F 0 "U4" H 12700 2425 50  0000 C CNN
@@ -427,7 +427,7 @@ F 3 "http://www.fairchildsemi.com/ds/MO/MOC3061M.pdf" H 12665 2100 50  0001 L CN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Relay_SolidState:MOC3063M U5
+L regulator-board-rescue:MOC3063M-Relay_SolidState U5
 U 1 1 5D877C2C
 P 12700 2650
 F 0 "U5" H 12700 2975 50  0000 C CNN
@@ -438,7 +438,7 @@ F 3 "http://www.fairchildsemi.com/ds/MO/MOC3061M.pdf" H 12665 2650 50  0001 L CN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Relay_SolidState:MOC3063M U6
+L regulator-board-rescue:MOC3063M-Relay_SolidState U6
 U 1 1 5D878966
 P 12700 3200
 F 0 "U6" H 12700 3525 50  0000 C CNN
@@ -449,7 +449,7 @@ F 3 "http://www.fairchildsemi.com/ds/MO/MOC3061M.pdf" H 12665 3200 50  0001 L CN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Relay_SolidState:MOC3063M U7
+L regulator-board-rescue:MOC3063M-Relay_SolidState U7
 U 1 1 5D879551
 P 12700 3750
 F 0 "U7" H 12700 4075 50  0000 C CNN
@@ -460,7 +460,7 @@ F 3 "http://www.fairchildsemi.com/ds/MO/MOC3061M.pdf" H 12665 3750 50  0001 L CN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Relay_SolidState:MOC3063M U9
+L regulator-board-rescue:MOC3063M-Relay_SolidState U9
 U 1 1 5D87A484
 P 12700 4300
 F 0 "U9" H 12700 4625 50  0000 C CNN
@@ -471,7 +471,7 @@ F 3 "http://www.fairchildsemi.com/ds/MO/MOC3061M.pdf" H 12665 4300 50  0001 L CN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Relay_SolidState:MOC3063M U10
+L regulator-board-rescue:MOC3063M-Relay_SolidState U10
 U 1 1 5D87B5A1
 P 12700 4850
 F 0 "U10" H 12700 5175 50  0000 C CNN
@@ -482,7 +482,7 @@ F 3 "http://www.fairchildsemi.com/ds/MO/MOC3061M.pdf" H 12665 4850 50  0001 L CN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Relay_SolidState:MOC3063M U11
+L regulator-board-rescue:MOC3063M-Relay_SolidState U11
 U 1 1 5D87C4A7
 P 12700 5400
 F 0 "U11" H 12700 5725 50  0000 C CNN
@@ -493,7 +493,7 @@ F 3 "http://www.fairchildsemi.com/ds/MO/MOC3061M.pdf" H 12665 5400 50  0001 L CN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR011
+L regulator-board-rescue:GND-power #PWR011
 U 1 1 5D8AAB80
 P 5550 1400
 F 0 "#PWR011" H 5550 1150 50  0001 C CNN
@@ -504,7 +504,7 @@ F 3 "" H 5550 1400 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR025
+L regulator-board-rescue:GND-power #PWR025
 U 1 1 5D8B7505
 P 7200 6000
 F 0 "#PWR025" H 7200 5750 50  0001 C CNN
@@ -519,7 +519,7 @@ Wire Wire Line
 Wire Wire Line
 	7200 2500 7200 2700
 $Comp
-L Connector:Conn_01x04_Female J3
+L regulator-board-rescue:Conn_01x04_Female-Connector J3
 U 1 1 5D8C5411
 P 7800 2400
 F 0 "J3" V 7738 2112 50  0000 R CNN
@@ -545,7 +545,7 @@ Connection ~ 7200 2700
 Wire Wire Line
 	7200 2700 7200 2900
 $Comp
-L power:GND #PWR017
+L regulator-board-rescue:GND-power #PWR017
 U 1 1 5D929A85
 P 7800 2750
 F 0 "#PWR017" H 7800 2500 50  0001 C CNN
@@ -560,7 +560,7 @@ Wire Wire Line
 Wire Wire Line
 	7800 3100 8300 3100
 $Comp
-L Device:R R6
+L regulator-board-rescue:R-Device R6
 U 1 1 5D934BAA
 P 6700 2700
 F 0 "R6" V 6493 2700 50  0000 C CNN
@@ -571,7 +571,7 @@ F 3 "~" H 6700 2700 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L power:GND #PWR020
+L regulator-board-rescue:GND-power #PWR020
 U 1 1 5D937781
 P 8800 3400
 F 0 "#PWR020" H 8800 3150 50  0001 C CNN
@@ -584,7 +584,7 @@ $EndComp
 Wire Wire Line
 	6850 2700 7200 2700
 $Comp
-L power:GND #PWR019
+L regulator-board-rescue:GND-power #PWR019
 U 1 1 5D98080F
 P 5700 3200
 F 0 "#PWR019" H 5700 2950 50  0001 C CNN
@@ -615,7 +615,7 @@ Left\nNeutral\nRight\nEarth
 Text Notes 14800 5250 0    50   ~ 0
 Left\nNeutral\nRight\nEarth
 $Comp
-L Device:C C6
+L regulator-board-rescue:C-Device C6
 U 1 1 5D988FA1
 P 5250 1200
 F 0 "C6" H 5200 1300 50  0000 L CNN
@@ -626,7 +626,7 @@ F 3 "~" H 5250 1200 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:C C5
+L regulator-board-rescue:C-Device C5
 U 1 1 5D9A44AA
 P 5050 1200
 F 0 "C5" H 5000 1300 50  0000 L CNN
@@ -637,7 +637,7 @@ F 3 "~" H 5050 1200 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:C C4
+L regulator-board-rescue:C-Device C4
 U 1 1 5D9A48C7
 P 4600 1200
 F 0 "C4" H 4550 1300 50  0000 L CNN
@@ -648,7 +648,7 @@ F 3 "~" H 4600 1200 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:C C3
+L regulator-board-rescue:C-Device C3
 U 1 1 5D9A4E27
 P 4400 1200
 F 0 "C3" H 4350 1300 50  0000 L CNN
@@ -659,7 +659,7 @@ F 3 "~" H 4400 1200 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:C C2
+L regulator-board-rescue:C-Device C2
 U 1 1 5D9A5133
 P 4200 1200
 F 0 "C2" H 4150 1300 50  0000 L CNN
@@ -670,7 +670,7 @@ F 3 "~" H 4200 1200 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:C C1
+L regulator-board-rescue:C-Device C1
 U 1 1 5D9A568D
 P 4000 1200
 F 0 "C1" H 3950 1300 50  0000 L CNN
@@ -687,7 +687,7 @@ MISO
 Text GLabel 7800 4300 2    50   Output ~ 0
 CLK
 $Comp
-L Device:LED D1
+L regulator-board-rescue:LED-Device D1
 U 1 1 5DA3D39C
 P 12150 1450
 F 0 "D1" H 12150 1250 50  0000 C CNN
@@ -698,7 +698,7 @@ F 3 "~" H 12150 1450 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Device:R R1
+L regulator-board-rescue:R-Device R1
 U 1 1 5DA3F12D
 P 11750 1450
 F 0 "R1" V 11650 1450 50  0000 C CNN
@@ -709,7 +709,7 @@ F 3 "~" H 11750 1450 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:LED D2
+L regulator-board-rescue:LED-Device D2
 U 1 1 5DA49D51
 P 12150 2000
 F 0 "D2" H 12150 1800 50  0000 C CNN
@@ -720,7 +720,7 @@ F 3 "~" H 12150 2000 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Device:R R3
+L regulator-board-rescue:R-Device R3
 U 1 1 5DA49D57
 P 11750 2000
 F 0 "R3" V 11650 2000 50  0000 C CNN
@@ -731,7 +731,7 @@ F 3 "~" H 11750 2000 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:LED D3
+L regulator-board-rescue:LED-Device D3
 U 1 1 5DA4FC57
 P 12150 2550
 F 0 "D3" H 12150 2350 50  0000 C CNN
@@ -742,7 +742,7 @@ F 3 "~" H 12150 2550 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Device:R R5
+L regulator-board-rescue:R-Device R5
 U 1 1 5DA4FC5D
 P 11750 2550
 F 0 "R5" V 11650 2550 50  0000 C CNN
@@ -753,7 +753,7 @@ F 3 "~" H 11750 2550 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:LED D4
+L regulator-board-rescue:LED-Device D4
 U 1 1 5DA55A7B
 P 12150 3100
 F 0 "D4" H 12150 2900 50  0000 C CNN
@@ -764,7 +764,7 @@ F 3 "~" H 12150 3100 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Device:R R8
+L regulator-board-rescue:R-Device R8
 U 1 1 5DA55A81
 P 11750 3100
 F 0 "R8" V 11650 3100 50  0000 C CNN
@@ -775,7 +775,7 @@ F 3 "~" H 11750 3100 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:LED D5
+L regulator-board-rescue:LED-Device D5
 U 1 1 5DA5B805
 P 12150 3650
 F 0 "D5" H 12150 3450 50  0000 C CNN
@@ -786,7 +786,7 @@ F 3 "~" H 12150 3650 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Device:R R10
+L regulator-board-rescue:R-Device R10
 U 1 1 5DA5B80B
 P 11750 3650
 F 0 "R10" V 11650 3650 50  0000 C CNN
@@ -797,7 +797,7 @@ F 3 "~" H 11750 3650 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:LED D6
+L regulator-board-rescue:LED-Device D6
 U 1 1 5DA60E2F
 P 12150 4200
 F 0 "D6" H 12150 4000 50  0000 C CNN
@@ -808,7 +808,7 @@ F 3 "~" H 12150 4200 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Device:R R12
+L regulator-board-rescue:R-Device R12
 U 1 1 5DA60E35
 P 11750 4200
 F 0 "R12" V 11650 4200 50  0000 C CNN
@@ -819,7 +819,7 @@ F 3 "~" H 11750 4200 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:LED D7
+L regulator-board-rescue:LED-Device D7
 U 1 1 5DA66B09
 P 12150 4750
 F 0 "D7" H 12150 4550 50  0000 C CNN
@@ -830,7 +830,7 @@ F 3 "~" H 12150 4750 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Device:R R16
+L regulator-board-rescue:R-Device R16
 U 1 1 5DA66B0F
 P 11750 4750
 F 0 "R16" V 11650 4750 50  0000 C CNN
@@ -841,7 +841,7 @@ F 3 "~" H 11750 4750 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:LED D8
+L regulator-board-rescue:LED-Device D8
 U 1 1 5DA6C7ED
 P 12150 5300
 F 0 "D8" H 12150 5100 50  0000 C CNN
@@ -852,7 +852,7 @@ F 3 "~" H 12150 5300 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Device:R R18
+L regulator-board-rescue:R-Device R18
 U 1 1 5DA6C7F3
 P 11750 5300
 F 0 "R18" V 11650 5300 50  0000 C CNN
@@ -901,7 +901,7 @@ Wire Wire Line
 Wire Wire Line
 	5500 6900 5600 6900
 $Comp
-L power:GND #PWR030
+L regulator-board-rescue:GND-power #PWR030
 U 1 1 5DB53D39
 P 5500 7100
 F 0 "#PWR030" H 5500 6850 50  0001 C CNN
@@ -923,7 +923,7 @@ F 3 "" H 2550 4350 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:LED D15
+L regulator-board-rescue:LED-Device D15
 U 1 1 5DC00E51
 P 14150 8850
 F 0 "D15" H 14143 8595 50  0000 C CNN
@@ -934,7 +934,7 @@ F 3 "~" H 14150 8850 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R20
+L regulator-board-rescue:R-Device R20
 U 1 1 5DC311A0
 P 14600 6750
 F 0 "R20" V 14393 6750 50  0000 C CNN
@@ -945,7 +945,7 @@ F 3 "~" H 14600 6750 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:LED D14
+L regulator-board-rescue:LED-Device D14
 U 1 1 5DC33DBC
 P 14150 8500
 F 0 "D14" H 14143 8245 50  0000 C CNN
@@ -956,7 +956,7 @@ F 3 "~" H 14150 8500 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R21
+L regulator-board-rescue:R-Device R21
 U 1 1 5DC33DC2
 P 14600 7100
 F 0 "R21" V 14393 7100 50  0000 C CNN
@@ -967,7 +967,7 @@ F 3 "~" H 14600 7100 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:LED D13
+L regulator-board-rescue:LED-Device D13
 U 1 1 5DC3D41E
 P 14150 8150
 F 0 "D13" H 14143 7895 50  0000 C CNN
@@ -978,7 +978,7 @@ F 3 "~" H 14150 8150 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R22
+L regulator-board-rescue:R-Device R22
 U 1 1 5DC3D424
 P 14600 7450
 F 0 "R22" V 14393 7450 50  0000 C CNN
@@ -989,7 +989,7 @@ F 3 "~" H 14600 7450 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:LED D12
+L regulator-board-rescue:LED-Device D12
 U 1 1 5DC4AF86
 P 14150 7800
 F 0 "D12" H 14143 7545 50  0000 C CNN
@@ -1000,7 +1000,7 @@ F 3 "~" H 14150 7800 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R24
+L regulator-board-rescue:R-Device R24
 U 1 1 5DC4AF8C
 P 14600 7800
 F 0 "R24" V 14393 7800 50  0000 C CNN
@@ -1011,7 +1011,7 @@ F 3 "~" H 14600 7800 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:LED D11
+L regulator-board-rescue:LED-Device D11
 U 1 1 5DC4AF92
 P 14150 7450
 F 0 "D11" H 14143 7195 50  0000 C CNN
@@ -1022,7 +1022,7 @@ F 3 "~" H 14150 7450 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R25
+L regulator-board-rescue:R-Device R25
 U 1 1 5DC4AF98
 P 14600 8150
 F 0 "R25" V 14393 8150 50  0000 C CNN
@@ -1033,7 +1033,7 @@ F 3 "~" H 14600 8150 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:LED D10
+L regulator-board-rescue:LED-Device D10
 U 1 1 5DC4AF9E
 P 14150 7100
 F 0 "D10" H 14143 6845 50  0000 C CNN
@@ -1044,7 +1044,7 @@ F 3 "~" H 14150 7100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R26
+L regulator-board-rescue:R-Device R26
 U 1 1 5DC4AFA4
 P 14600 8500
 F 0 "R26" V 14393 8500 50  0000 C CNN
@@ -1055,7 +1055,7 @@ F 3 "~" H 14600 8500 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:LED D9
+L regulator-board-rescue:LED-Device D9
 U 1 1 5DC55406
 P 14150 6750
 F 0 "D9" H 14143 6495 50  0000 C CNN
@@ -1066,7 +1066,7 @@ F 3 "~" H 14150 6750 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R27
+L regulator-board-rescue:R-Device R27
 U 1 1 5DC5540C
 P 14600 8850
 F 0 "R27" V 14393 8850 50  0000 C CNN
@@ -1083,7 +1083,7 @@ Display
 Text Notes 2450 10750 0    50   ~ 0
 Keyboard
 $Comp
-L power:GND #PWR041
+L regulator-board-rescue:GND-power #PWR041
 U 1 1 5DD3A84F
 P 2650 10750
 F 0 "#PWR041" H 2650 10500 50  0001 C CNN
@@ -1094,7 +1094,7 @@ F 3 "" H 2650 10750 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R32
+L regulator-board-rescue:R-Device R32
 U 1 1 5DD3C134
 P 1550 10050
 F 0 "R32" V 1343 10050 50  0000 C CNN
@@ -1105,7 +1105,7 @@ F 3 "~" H 1550 10050 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:R R29
+L regulator-board-rescue:R-Device R29
 U 1 1 5DD40772
 P 1550 9250
 F 0 "R29" V 1343 9250 50  0000 C CNN
@@ -1116,7 +1116,7 @@ F 3 "~" H 1550 9250 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:R R31
+L regulator-board-rescue:R-Device R31
 U 1 1 5DD40E4B
 P 1550 9650
 F 0 "R31" V 1343 9650 50  0000 C CNN
@@ -1127,7 +1127,7 @@ F 3 "~" H 1550 9650 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:R R33
+L regulator-board-rescue:R-Device R33
 U 1 1 5DD4146E
 P 1550 10450
 F 0 "R33" V 1343 10450 50  0000 C CNN
@@ -1138,7 +1138,7 @@ F 3 "~" H 1550 10450 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L power:+3V3 #PWR037
+L regulator-board-rescue:+3V3-power #PWR037
 U 1 1 5DDAE5D1
 P 1250 9000
 F 0 "#PWR037" H 1250 8850 50  0001 C CNN
@@ -1153,7 +1153,7 @@ Wire Wire Line
 Wire Wire Line
 	1050 1500 1050 1600
 $Comp
-L power:LINE #PWR03
+L regulator-board-rescue:LINE-power #PWR03
 U 1 1 5E2E2FE4
 P 1050 1000
 F 0 "#PWR03" H 1050 850 50  0001 C CNN
@@ -1168,7 +1168,7 @@ Wire Wire Line
 Wire Wire Line
 	1050 1100 1150 1100
 $Comp
-L power:NEUT #PWR09
+L regulator-board-rescue:NEUT-power #PWR09
 U 1 1 5E2F945D
 P 900 1200
 F 0 "#PWR09" H 900 1050 50  0001 C CNN
@@ -1234,7 +1234,7 @@ Wire Wire Line
 	3800 1400 4000 1400
 Connection ~ 4000 1400
 $Comp
-L power:+3V3 #PWR016
+L regulator-board-rescue:+3V3-power #PWR016
 U 1 1 5E7AADBD
 P 7200 2500
 F 0 "#PWR016" H 7200 2350 50  0001 C CNN
@@ -1245,7 +1245,7 @@ F 3 "" H 7200 2500 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:LINE #PWR02
+L regulator-board-rescue:LINE-power #PWR02
 U 1 1 5E7AC146
 P 2300 900
 F 0 "#PWR02" H 2300 750 50  0001 C CNN
@@ -1256,7 +1256,7 @@ F 3 "" H 2300 900 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:NEUT #PWR01
+L regulator-board-rescue:NEUT-power #PWR01
 U 1 1 5E7B02AA
 P 2050 900
 F 0 "#PWR01" H 2050 750 50  0001 C CNN
@@ -1267,7 +1267,7 @@ F 3 "" H 2050 900 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:LINE #PWR07
+L regulator-board-rescue:LINE-power #PWR07
 U 1 1 5E7DC00C
 P 13200 1150
 F 0 "#PWR07" H 13200 1000 50  0001 C CNN
@@ -1281,7 +1281,7 @@ Wire Wire Line
 	13200 1150 13200 1450
 Connection ~ 13200 1450
 $Comp
-L power:NEUT #PWR08
+L regulator-board-rescue:NEUT-power #PWR08
 U 1 1 5E8435B5
 P 14200 1150
 F 0 "#PWR08" H 14200 1000 50  0001 C CNN
@@ -1295,7 +1295,7 @@ Wire Wire Line
 	14200 1150 14200 1750
 Connection ~ 14200 1750
 $Comp
-L power:GNDPWR #PWR023
+L regulator-board-rescue:GNDPWR-power #PWR023
 U 1 1 5E882006
 P 14300 5600
 F 0 "#PWR023" H 14300 5400 50  0001 C CNN
@@ -1447,7 +1447,7 @@ K1
 Text Label 6500 3400 0    50   ~ 0
 K2
 $Comp
-L power:GND #PWR024
+L regulator-board-rescue:GND-power #PWR024
 U 1 1 5FA93A13
 P 2050 5750
 F 0 "#PWR024" H 2050 5500 50  0001 C CNN
@@ -1458,7 +1458,7 @@ F 3 "" H 2050 5750 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+3V3 #PWR021
+L regulator-board-rescue:+3V3-power #PWR021
 U 1 1 5FA96FB2
 P 1950 3800
 F 0 "#PWR021" H 1950 3650 50  0001 C CNN
@@ -1485,7 +1485,7 @@ MISO
 Text GLabel 3350 4550 2    50   Input ~ 0
 MOSI
 $Comp
-L Interface_Expansion:PCF8574 U12
+L regulator-board-rescue:PCF8574-Interface_Expansion U12
 U 1 1 5FFA5B04
 P 12550 7150
 F 0 "U12" H 12550 8031 50  0000 C CNN
@@ -1496,7 +1496,7 @@ F 3 "http://www.nxp.com/documents/data_sheet/PCF8574_PCF8574A.pdf" H 12550 7150 
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR032
+L regulator-board-rescue:GND-power #PWR032
 U 1 1 5FFA7C6E
 P 12550 8050
 F 0 "#PWR032" H 12550 7800 50  0001 C CNN
@@ -1539,7 +1539,7 @@ Wire Wire Line
 	11950 7250 11950 7900
 NoConn ~ 12050 7550
 $Comp
-L Interface_Expansion:PCF8574 U3
+L regulator-board-rescue:PCF8574-Interface_Expansion U3
 U 1 1 6047BC7C
 P 10000 2050
 F 0 "U3" H 10000 2931 50  0000 C CNN
@@ -1550,7 +1550,7 @@ F 3 "http://www.nxp.com/documents/data_sheet/PCF8574_PCF8574A.pdf" H 10000 2050 
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR018
+L regulator-board-rescue:GND-power #PWR018
 U 1 1 6047BC82
 P 10000 2950
 F 0 "#PWR018" H 10000 2700 50  0001 C CNN
@@ -1727,7 +1727,7 @@ Text Label 6500 3100 0    50   ~ 0
 EN
 NoConn ~ 7800 3300
 $Comp
-L Switch:SW_Push_Dual SW3
+L regulator-board-rescue:SW_Push_Dual-Switch SW3
 U 1 1 626B135D
 P 2350 9250
 F 0 "SW3" H 2350 9535 50  0000 C CNN
@@ -1738,7 +1738,7 @@ F 3 "~" H 2350 9450 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Switch:SW_Push_Dual SW4
+L regulator-board-rescue:SW_Push_Dual-Switch SW4
 U 1 1 626B5165
 P 2350 9650
 F 0 "SW4" H 2350 9935 50  0000 C CNN
@@ -1749,7 +1749,7 @@ F 3 "~" H 2350 9850 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Switch:SW_Push_Dual SW5
+L regulator-board-rescue:SW_Push_Dual-Switch SW5
 U 1 1 626B5D3E
 P 2350 10050
 F 0 "SW5" H 2350 10335 50  0000 C CNN
@@ -1768,7 +1768,7 @@ NoConn ~ 2150 9850
 NoConn ~ 2150 9450
 NoConn ~ 2550 9650
 $Comp
-L Switch:SW_Push_Dual SW1
+L regulator-board-rescue:SW_Push_Dual-Switch SW1
 U 1 1 62817B10
 P 6100 3100
 F 0 "SW1" H 6100 3385 50  0000 C CNN
@@ -1780,7 +1780,7 @@ F 3 "~" H 6100 3300 50  0001 C CNN
 $EndComp
 NoConn ~ 5900 3300
 $Comp
-L Switch:SW_Push_Dual SW2
+L regulator-board-rescue:SW_Push_Dual-Switch SW2
 U 1 1 62871646
 P 8500 3100
 F 0 "SW2" H 8500 3385 50  0000 C CNN
@@ -1793,12 +1793,12 @@ $EndComp
 NoConn ~ 8700 3100
 NoConn ~ 8300 3300
 $Comp
-L Converter_ACDC:HLK-PM03 PS1
+L regulator-board-rescue:HLK-PM03-Converter_ACDC PS1
 U 1 1 62986BD7
 P 3300 1200
 F 0 "PS1" H 3300 1525 50  0000 C CNN
 F 1 "Power supply https://bit.ly/2kBfKOu" H 3300 1434 50  0000 C CNN
-F 2 "Connector_Wire:SolderWirePad_2x02_P6.35mm_Drill2mm" H 3300 900 50  0001 C CNN
+F 2 "Converter_ACDC:Converter_ACDC_HiLink_HLK-PMxx" H 3300 900 50  0001 C CNN
 F 3 "http://www.hlktech.net/product_detail.php?ProId=59" H 3700 850 50  0001 C CNN
 	1    3300 1200
 	1    0    0    -1  
@@ -1846,7 +1846,7 @@ Wire Wire Line
 Wire Wire Line
 	3800 1300 3800 1400
 $Comp
-L Switch:SW_Push_Dual SW6
+L regulator-board-rescue:SW_Push_Dual-Switch SW6
 U 1 1 626B66C5
 P 2350 10450
 F 0 "SW6" H 2350 10735 50  0000 C CNN
@@ -1868,7 +1868,7 @@ F 3 "https://utcdn.utsource.info/pdfjs/index.html?90575_DALLAS_DS2482S-100" H 99
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR034
+L regulator-board-rescue:GND-power #PWR034
 U 1 1 5DA1241C
 P 9700 8650
 F 0 "#PWR034" H 9700 8400 50  0001 C CNN
@@ -1899,7 +1899,7 @@ SCL
 Text GLabel 9300 7800 0    50   BiDi ~ 0
 SDA
 $Comp
-L Transistor_FET:BSS84 Q2
+L regulator-board-rescue:BSS84-Transistor_FET Q2
 U 1 1 5DCAAA0D
 P 10850 8050
 F 0 "Q2" H 11056 8096 50  0000 L CNN
@@ -1923,7 +1923,7 @@ Wire Wire Line
 Wire Wire Line
 	10950 8250 10950 8850
 $Comp
-L Device:R R23
+L regulator-board-rescue:R-Device R23
 U 1 1 5E0CB9B9
 P 10950 7650
 F 0 "R23" H 11020 7696 50  0000 L CNN
@@ -1954,7 +1954,7 @@ F 3 "https://utcdn.utsource.info/pdfjs/index.html?90575_DALLAS_DS2482S-100" H 99
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR040
+L regulator-board-rescue:GND-power #PWR040
 U 1 1 5E285750
 P 9700 10450
 F 0 "#PWR040" H 9700 10200 50  0001 C CNN
@@ -1978,7 +1978,7 @@ SCL
 Text GLabel 9300 9600 0    50   BiDi ~ 0
 SDA
 $Comp
-L Transistor_FET:BSS84 Q3
+L regulator-board-rescue:BSS84-Transistor_FET Q3
 U 1 1 5E285761
 P 10850 9850
 F 0 "Q3" H 11056 9896 50  0000 L CNN
@@ -2002,7 +2002,7 @@ Wire Wire Line
 Wire Wire Line
 	10950 10050 10950 10650
 $Comp
-L Device:R R30
+L regulator-board-rescue:R-Device R30
 U 1 1 5E28576E
 P 10950 9450
 F 0 "R30" H 11020 9496 50  0000 L CNN
@@ -2034,7 +2034,7 @@ Wire Wire Line
 Wire Wire Line
 	11200 8600 11300 8600
 $Comp
-L power:GND #PWR036
+L regulator-board-rescue:GND-power #PWR036
 U 1 1 5E48EB07
 P 11100 8950
 F 0 "#PWR036" H 11100 8700 50  0001 C CNN
@@ -2067,7 +2067,7 @@ Wire Wire Line
 	6400 2700 6550 2700
 Connection ~ 6400 3100
 $Comp
-L power:+3V3 #PWR014
+L regulator-board-rescue:+3V3-power #PWR014
 U 1 1 5EBF2D30
 P 3150 1850
 F 0 "#PWR014" H 3150 1700 50  0001 C CNN
@@ -2078,7 +2078,7 @@ F 3 "" H 3150 1850 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR015
+L regulator-board-rescue:GND-power #PWR015
 U 1 1 5EBF3DD2
 P 2600 2400
 F 0 "#PWR015" H 2600 2150 50  0001 C CNN
@@ -2097,7 +2097,7 @@ Wire Wire Line
 Wire Wire Line
 	2900 2000 3150 2000
 $Comp
-L power:+5V #PWR013
+L regulator-board-rescue:+5V-power #PWR013
 U 1 1 5ED0F9BC
 P 2050 1850
 F 0 "#PWR013" H 2050 1700 50  0001 C CNN
@@ -2116,7 +2116,7 @@ Wire Wire Line
 Wire Wire Line
 	9000 9250 9700 9250
 $Comp
-L power:+5V #PWR039
+L regulator-board-rescue:+5V-power #PWR039
 U 1 1 5EDB6215
 P 9700 9150
 F 0 "#PWR039" H 9700 9000 50  0001 C CNN
@@ -2127,7 +2127,7 @@ F 3 "" H 9700 9150 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+5V #PWR031
+L regulator-board-rescue:+5V-power #PWR031
 U 1 1 5EDB7D15
 P 9700 7350
 F 0 "#PWR031" H 9700 7200 50  0001 C CNN
@@ -2138,7 +2138,7 @@ F 3 "" H 9700 7350 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+5V #PWR026
+L regulator-board-rescue:+5V-power #PWR026
 U 1 1 5EDEFE83
 P 12550 6150
 F 0 "#PWR026" H 12550 6000 50  0001 C CNN
@@ -2178,7 +2178,7 @@ Wire Wire Line
 Wire Wire Line
 	8500 4800 7800 4800
 $Comp
-L power:+5V #PWR029
+L regulator-board-rescue:+5V-power #PWR029
 U 1 1 5FB67DB8
 P 5500 6800
 F 0 "#PWR029" H 5500 6650 50  0001 C CNN
@@ -2189,7 +2189,7 @@ F 3 "" H 5500 6800 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Interface_Expansion:PCF8574 U16
+L regulator-board-rescue:PCF8574-Interface_Expansion U16
 U 1 1 5FBED978
 P 4250 10150
 F 0 "U16" H 4250 11031 50  0000 C CNN
@@ -2200,7 +2200,7 @@ F 3 "http://www.nxp.com/documents/data_sheet/PCF8574_PCF8574A.pdf" H 4250 10150 
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR042
+L regulator-board-rescue:GND-power #PWR042
 U 1 1 5FBED97E
 P 4250 11050
 F 0 "#PWR042" H 4250 10800 50  0001 C CNN
@@ -2230,7 +2230,7 @@ Connection ~ 4250 9350
 Wire Wire Line
 	4250 9350 4250 9450
 $Comp
-L power:+5V #PWR038
+L regulator-board-rescue:+5V-power #PWR038
 U 1 1 5FBED996
 P 4250 9150
 F 0 "#PWR038" H 4250 9000 50  0001 C CNN
@@ -2249,7 +2249,7 @@ Wire Wire Line
 Wire Wire Line
 	3750 10250 3650 10250
 $Comp
-L power:+5V #PWR028
+L regulator-board-rescue:+5V-power #PWR028
 U 1 1 5FB65BA9
 P 4250 6800
 F 0 "#PWR028" H 4250 6650 50  0001 C CNN
@@ -2328,7 +2328,7 @@ Wire Wire Line
 Wire Wire Line
 	4250 8700 4250 8550
 $Comp
-L power:GND #PWR035
+L regulator-board-rescue:GND-power #PWR035
 U 1 1 61143F30
 P 4250 8700
 F 0 "#PWR035" H 4250 8450 50  0001 C CNN
@@ -2339,7 +2339,7 @@ F 3 "" H 4250 8700 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Interface_Expansion:PCF8574 U13
+L regulator-board-rescue:PCF8574-Interface_Expansion U13
 U 1 1 61143F2A
 P 4250 7800
 F 0 "U13" H 4250 8681 50  0000 C CNN
@@ -2415,7 +2415,7 @@ R15
 Text Label 5550 9050 1    50   ~ 0
 R16
 $Comp
-L power:+5V #PWR033
+L regulator-board-rescue:+5V-power #PWR033
 U 1 1 602D806F
 P 11200 8500
 F 0 "#PWR033" H 11200 8350 50  0001 C CNN
@@ -2430,7 +2430,7 @@ Wire Wire Line
 Wire Wire Line
 	7800 4600 9000 4600
 $Comp
-L power:+3V3 #PWR022
+L regulator-board-rescue:+3V3-power #PWR022
 U 1 1 604223C3
 P 9100 4050
 F 0 "#PWR022" H 9100 3900 50  0001 C CNN
@@ -2441,7 +2441,7 @@ F 3 "" H 9100 4050 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R14
+L regulator-board-rescue:R-Device R14
 U 1 1 60423EC4
 P 8750 4300
 F 0 "R14" H 8820 4346 50  0000 L CNN
@@ -2452,7 +2452,7 @@ F 3 "~" H 8750 4300 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R15
+L regulator-board-rescue:R-Device R15
 U 1 1 60425752
 P 9000 4300
 F 0 "R15" H 9070 4346 50  0000 L CNN
@@ -2482,7 +2482,7 @@ Connection ~ 9000 4600
 Wire Wire Line
 	9000 4600 9150 4600
 $Comp
-L power:+5V #PWR06
+L regulator-board-rescue:+5V-power #PWR06
 U 1 1 60532DAF
 P 10000 1050
 F 0 "#PWR06" H 10000 900 50  0001 C CNN
@@ -2493,7 +2493,7 @@ F 3 "" H 10000 1050 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+5V #PWR010
+L regulator-board-rescue:+5V-power #PWR010
 U 1 1 606A4D91
 P 11400 1350
 F 0 "#PWR010" H 11400 1200 50  0001 C CNN
@@ -2603,7 +2603,7 @@ P7
 Text Label 10550 2350 0    50   ~ 0
 P8
 $Comp
-L power:+5V #PWR027
+L regulator-board-rescue:+5V-power #PWR027
 U 1 1 612F383F
 P 14850 6650
 F 0 "#PWR027" H 14850 6500 50  0001 C CNN
@@ -2652,7 +2652,7 @@ Wire Wire Line
 	14850 8850 14750 8850
 Connection ~ 14850 8500
 $Comp
-L Device:LED D16
+L regulator-board-rescue:LED-Device D16
 U 1 1 614E636A
 P 14150 9200
 F 0 "D16" H 14143 8945 50  0000 C CNN
@@ -2663,7 +2663,7 @@ F 3 "~" H 14150 9200 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R28
+L regulator-board-rescue:R-Device R28
 U 1 1 614E6370
 P 14600 9200
 F 0 "R28" V 14393 9200 50  0000 C CNN
@@ -2735,7 +2735,7 @@ Wire Wire Line
 Wire Wire Line
 	13800 6850 13050 6850
 $Comp
-L power:+5V #PWR04
+L regulator-board-rescue:+5V-power #PWR04
 U 1 1 61898380
 P 4900 1000
 F 0 "#PWR04" H 4900 850 50  0001 C CNN
@@ -2752,7 +2752,7 @@ Connection ~ 4400 1000
 Wire Wire Line
 	4900 1100 4900 1000
 $Comp
-L power:+3V3 #PWR05
+L regulator-board-rescue:+3V3-power #PWR05
 U 1 1 61D92F67
 P 5550 1000
 F 0 "#PWR05" H 5550 850 50  0001 C CNN
@@ -2782,7 +2782,7 @@ Entry Wire Line
 Text Label 1350 5800 0    50   ~ 0
 TFT_LED
 $Comp
-L Transistor_FET:BSS84 Q1
+L regulator-board-rescue:BSS84-Transistor_FET Q1
 U 1 1 61F1E67B
 P 1300 5050
 F 0 "Q1" V 1643 5050 50  0000 C CNN
@@ -2818,7 +2818,7 @@ Wire Wire Line
 Wire Wire Line
 	4600 1000 4800 1000
 $Comp
-L Regulator_Linear:LM1117-3.3 U2
+L regulator-board-rescue:LM1117-3.3-Regulator_Linear U2
 U 1 1 5DC0C6A4
 P 2600 2000
 F 0 "U2" H 2600 2242 50  0000 C CNN
@@ -2833,6 +2833,50 @@ Wire Wire Line
 Connection ~ 4600 1400
 Wire Wire Line
 	4600 1400 5050 1400
+$Comp
+L regulator-board-rescue:Conn_01x16_Female-Connector J8
+U 1 1 5D96C37F
+P 5800 8100
+F 0 "J8" H 5828 8076 50  0000 L CNN
+F 1 "Conn_01x16_Female" H 5828 7985 50  0000 L CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x16_P2.54mm_Vertical" H 5800 8100 50  0001 C CNN
+F 3 "~" H 5800 8100 50  0001 C CNN
+	1    5800 8100
+	1    0    0    -1  
+$EndComp
+$Comp
+L regulator-board-rescue:Conn_01x02_Female-Connector J7
+U 1 1 5D96FCE9
+P 5800 6900
+F 0 "J7" H 5828 6876 50  0000 L CNN
+F 1 "Conn_01x02_Female" H 5828 6785 50  0000 L CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Vertical" H 5800 6900 50  0001 C CNN
+F 3 "~" H 5800 6900 50  0001 C CNN
+	1    5800 6900
+	1    0    0    -1  
+$EndComp
+$Comp
+L regulator-board-rescue:Conn_01x02_Female-Connector J9
+U 1 1 5D971DA3
+P 11500 8600
+F 0 "J9" H 11528 8576 50  0000 L CNN
+F 1 "Conn_01x02_Female" H 11528 8485 50  0000 L CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Vertical" H 11500 8600 50  0001 C CNN
+F 3 "~" H 11500 8600 50  0001 C CNN
+	1    11500 8600
+	1    0    0    -1  
+$EndComp
+$Comp
+L regulator-board-rescue:Conn_01x02_Female-Connector J10
+U 1 1 5D9736C7
+P 11500 8850
+F 0 "J10" H 11528 8826 50  0000 L CNN
+F 1 "Conn_01x02_Female" H 11528 8735 50  0000 L CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Vertical" H 11500 8850 50  0001 C CNN
+F 3 "~" H 11500 8850 50  0001 C CNN
+	1    11500 8850
+	1    0    0    -1  
+$EndComp
 Wire Wire Line
 	1700 9250 2150 9250
 Wire Wire Line
@@ -2851,48 +2895,4 @@ Wire Bus Line
 	1750 4450 1750 6350
 Wire Bus Line
 	8600 3600 8600 6350
-$Comp
-L Connector:Conn_01x16_Female J?
-U 1 1 5D96C37F
-P 5800 8100
-F 0 "J?" H 5828 8076 50  0000 L CNN
-F 1 "Conn_01x16_Female" H 5828 7985 50  0000 L CNN
-F 2 "" H 5800 8100 50  0001 C CNN
-F 3 "~" H 5800 8100 50  0001 C CNN
-	1    5800 8100
-	1    0    0    -1  
-$EndComp
-$Comp
-L Connector:Conn_01x02_Female J?
-U 1 1 5D96FCE9
-P 5800 6900
-F 0 "J?" H 5828 6876 50  0000 L CNN
-F 1 "Conn_01x02_Female" H 5828 6785 50  0000 L CNN
-F 2 "" H 5800 6900 50  0001 C CNN
-F 3 "~" H 5800 6900 50  0001 C CNN
-	1    5800 6900
-	1    0    0    -1  
-$EndComp
-$Comp
-L Connector:Conn_01x02_Female J?
-U 1 1 5D971DA3
-P 11500 8600
-F 0 "J?" H 11528 8576 50  0000 L CNN
-F 1 "Conn_01x02_Female" H 11528 8485 50  0000 L CNN
-F 2 "" H 11500 8600 50  0001 C CNN
-F 3 "~" H 11500 8600 50  0001 C CNN
-	1    11500 8600
-	1    0    0    -1  
-$EndComp
-$Comp
-L Connector:Conn_01x02_Female J?
-U 1 1 5D9736C7
-P 11500 8850
-F 0 "J?" H 11528 8826 50  0000 L CNN
-F 1 "Conn_01x02_Female" H 11528 8735 50  0000 L CNN
-F 2 "" H 11500 8850 50  0001 C CNN
-F 3 "~" H 11500 8850 50  0001 C CNN
-	1    11500 8850
-	1    0    0    -1  
-$EndComp
 $EndSCHEMATC
