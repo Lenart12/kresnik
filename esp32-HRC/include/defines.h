@@ -4,6 +4,8 @@
 #include <inttypes.h>
 #include <lvgl.h>
 
+// #define CLEAN_CONFIG
+
 // PINS {
 static const uint8_t SD_CS = 4;     // 26
 
@@ -86,8 +88,15 @@ enum Status_led : uint8_t{
 	wifi = 1,
 	moving_motor = 2,
 	night_time = 3,
+	user_def_1 = 4,
+	user_def_2 = 5,
+	user_def_3 = 6,
+	error = 7
 };
 //}
+
+static const uint32_t CONTROL_INTERVAL = 2 * 60 * 1000; // 2 minutes
+static const uint32_t CONVERSION_REQUEST_DELAY = 750;
 
 static const int32_t NTP_OFFSET = 3600; // GMT+1
 #endif

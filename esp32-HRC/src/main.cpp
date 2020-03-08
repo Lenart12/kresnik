@@ -1,17 +1,21 @@
 #include <Arduino.h>
 
 #include <SPI.h>
-#include <SPIFFS.h>
+#include <EEPROM.h>
 
 #include <globals.h>
 
 #include <indev_drivers.h>
 #include <display_drivers.h>
 #include <logging.h>
+#include <tasks.h>
+#include <lv_gui.h>
 
 void setup(){
 	Serial.begin(115200);
 	lv_init();
+	xSemaphoreGive(i2c_semaphore);
+	xSemaphoreGive(timing_semaphore);
 
 	lv_log_register_print_cb(logging_cb);
 
@@ -21,35 +25,69 @@ void setup(){
 	touchpad_init();
 
 	tick.attach_ms(LVGL_TICK_PERIOD, lv_tick_handler);
+	LV_LOG_TRACE("Created tick handler");
 
-	lv_obj_t *label = lv_label_create(lv_scr_act(), NULL);
-	lv_label_set_text(label, "ESP32-HRC");
-	lv_obj_align(label, NULL, LV_ALIGN_IN_TOP_MID, 0, 0);
+	status_expander.begin(PCF8574_STATUS);
+	status_expander.writeDDR(0xFF);
+	thermo_expander.begin(PCF8574_THERMO);
+	thermo_expander.writeDDR(0xFF);
+	relay0_expander.begin(PCF8574_RELAY0);
+	relay0_expander.writeDDR(0xFF);
+	relay1_expander.begin(PCF8574_RELAY1);
+	relay1_expander.writeDDR(0xFF);
 
-	lv_obj_t *slider = lv_slider_create(lv_scr_act(), NULL);
-	lv_obj_set_size(slider, W-50, 50);
-	lv_obj_align(slider, NULL, LV_ALIGN_CENTER, 0, 0);
+	status_expander.digitalWrite(Status_led::power, ON);
+	LV_LOG_TRACE("Started pcf8574 expanders");
+
+	xSemaphoreTake(i2c_semaphore, portMAX_DELAY);
+	ds2482_0.setStrongPullup();
+	ds2482_1.setStrongPullup();
+
+	tempature_1.begin();
+	tempature_2.begin();
+
+	tempature_1.setWaitForConversion(false);
+	tempature_2.setWaitForConversion(false);
+	xSemaphoreGive(i2c_semaphore);
+	tempature_request_task(NULL);
+	LV_LOG_TRACE("Started tempature sensors");
+
+	EEPROM.begin(sizeof(config));
+	#ifdef CLEAN_CONFIG
+	EEPROM.put(0, config);
+	EEPROM.commit();
+	#else
+	EEPROM.get(0, config);
+	#endif
+	LV_LOG_TRACE("Loaded configuration");
+
+	WiFi.begin(config.wifi_login.ssid, config.wifi_login.passwd);
+	LV_LOG_TRACE("Started WiFi");
+
+	time_client.begin();
+	time_client.setTimeOffset(NTP_OFFSET);
+
+	lv_task_create(wifi_status_task, 1000, LV_TASK_PRIO_LOW, NULL);
+	LV_LOG_TRACE("Created wifi status task");
+
+	lv_task_create(time_display_task, 1000, LV_TASK_PRIO_LOWEST, NULL);
+	LV_LOG_TRACE("Created time display task");
+
+	lv_task_create(screensaver_task, 1000, LV_TASK_PRIO_LOW, NULL);
+	LV_LOG_TRACE("Created screensaver task");
+
+	lv_task_create(tempature_request_task, 10000, LV_TASK_PRIO_MID, NULL);
+	LV_LOG_TRACE("Created tempature request task");
+
+	lv_task_create(control_update_task, 1000, LV_TASK_PRIO_HIGH, NULL);
+	LV_LOG_TRACE("Created control update task");
 
 	LV_LOG_INFO("Setup complete");
+	lv_main();
 }
 
 void loop(){
 	lv_task_handler();
-	uint32_t last_interaction = lv_disp_get_inactive_time(NULL);
-
-	static bool screensaver = false;
-	if(screensaver || last_interaction > TFT_SCREEN_OFF){
-		if(!screensaver){
-			LV_LOG_INFO("Screen turning off");
-			screensaver = true;
-			digitalWrite(TFT_LED, OFF);
-		}
-		if(last_interaction < TFT_SCREEN_OFF){
-			LV_LOG_INFO("Screen turning on");
-			screensaver = false;
-			digitalWrite(TFT_LED, ON);
-		}
-	}
 	delay(5);
 }
 

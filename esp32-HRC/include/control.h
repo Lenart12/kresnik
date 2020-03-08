@@ -2,45 +2,90 @@
 #define CONTROL_H
 
 #include <Arduino.h>
-
+#include <Ticker.h>
 #include <DallasTemperature.h>
+
+struct TempatureAddress{
+    uint8_t lane;
+    DeviceAddress address;
+
+    float read();
+};
 
 class MotorControl{
 public:
-    MotorControl(){};
+    MotorControl():MotorControl(false){};
+    MotorControl(bool set_up):
+    set_up(false){};
+
+    MotorControl(
+        uint8_t id,
+        bool enabled,
+        float target_temp,
+        float heating_offset_coeficient,
+        TempatureAddress circuit_addr,
+        TempatureAddress outside_addr):
+        id(id),
+        set_up(true),
+        target_temp(target_temp),
+        heating_offset_coeficient(heating_offset_coeficient),
+        circuit_addr(circuit_addr),
+        outside_addr(outside_addr)    
+    {};
 
     void update();
-private:
-    float target_temp;
-    DeviceAddress ds18b20_address;
+protected:
+    uint8_t id;
 
+    bool set_up;
+    bool enabled;
+
+    float target_temp;
+    float heating_offset_coeficient;
+
+    TempatureAddress circuit_addr;
+    TempatureAddress outside_addr;
+
+    Ticker ticker;
 };
 
 
 enum class RelayControlType : uint8_t{
-    timer,
+    time_of_day,
     tempature,
     wifi
 };
 
 class RelayControl{
 public:
-    RelayControl(){};
+    RelayControl():
+    set_up(false){};
 
     void update();
-private:
-    uint8_t gpio_number;
+protected:
+    uint8_t id;
+    
+    bool set_up;
+    bool enabled;
+
     RelayControlType type;
 
-    // timer
-    uint32_t timer_turn_on;
-    uint32_t timer_turn_off;
+    bool current_state;
+
+    // time_of_day
+    uint8_t days;
+    uint32_t turn_on_seconds;
+    uint32_t turn_off_seconds;
 
     // tempature
-    DeviceAddress ds18b20_address;
+    TempatureAddress temp_addr;
     float switch_tempature;
     bool inverted;
 };
+
+/*
+
+*/
 
 class Control{
 public:

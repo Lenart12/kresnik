@@ -3,6 +3,13 @@
 
 #include <defines.h>
 
+#include <Arduino.h>
+extern SemaphoreHandle_t i2c_semaphore;
+extern SemaphoreHandle_t timing_semaphore;
+
+extern uint32_t last_conversion_request;
+extern uint32_t last_control_update;
+
 #include <Wire.h>
 #include <PCF8574_WDDR.h>
 extern PCF8574_WDDR status_expander;
@@ -11,13 +18,21 @@ extern PCF8574_WDDR relay0_expander;
 extern PCF8574_WDDR relay1_expander;
 
 #include <control.h>
-extern Control control;
+struct WiFi_login{
+    char ssid[32];
+    char passwd[64];
+};
+struct Config{
+    Control control;
+    WiFi_login wifi_login;
+};
+extern Config config;
 
 #include <WiFi.h>
 #include <WiFiUdp.h>
 #include <NTPClient.h>
-extern WiFiUDP ntpUDP;
-extern NTPClient timeClient;
+extern WiFiUDP ntp_UDP;
+extern NTPClient time_client;
 
 #include <OneWire.h>
 #include <DallasTemperature.h>
