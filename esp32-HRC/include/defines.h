@@ -2,22 +2,7 @@
 #define DEFINES_H
 
 #include <inttypes.h>
-#include <Adafruit_ILI9341.h>
-
-// SERIAL_DEBUG {
-
-#define SERIAL_DEBUG
-
-#ifdef SERIAL_DEBUG
-	#define Sbegin(baud)         Serial.begin(baud)
-	#define Sprint(args...)      Serial.print(args) 
-	#define Sprintln(args...)    Serial.println(args)
-#else
-	#define Sprint(args...)
-	#define Sprintln(args...)
-	#define Sbegin(baud)
-#endif
-//}
+#include <lvgl.h>
 
 // PINS {
 static const uint8_t SD_CS = 4;     // 26
@@ -30,7 +15,7 @@ static const uint8_t TFT_CS = 5;    // 29
 
 static const uint8_t SPI_CLK = 18;  // 30
 static const uint8_t SPI_MISO = 19; // 31
-static const uint8_t SPI_MOSI = 5;  // 37
+static const uint8_t SPI_MOSI = 23;  // 37
 
 static const uint8_t I2C_SDA = 21;  // 33
 static const uint8_t I2C_SCL = 22;  // 36
@@ -48,15 +33,12 @@ static const uint8_t BUTTON_3 = 35; // 07
 // }
 
 // COLORS {
-#define fromRGB(r, g, b) \
-(uint16_t)( (((r >> 3) & 0x1f) << 11) | ( ((g >> 2) & 0x3f) << 5) | ((b >> 3) & 0x1f) )
+static const lv_color_t BUTTON_0_COLOR = LV_COLOR_MAKE(  0,   0,   0);
+static const lv_color_t BUTTON_1_COLOR = LV_COLOR_MAKE(255, 255, 255);
+static const lv_color_t BUTTON_2_COLOR = LV_COLOR_MAKE(255, 255,   0);
+static const lv_color_t BUTTON_3_COLOR = LV_COLOR_MAKE(  0,   0, 255);
 
-static const uint16_t BUTTON_0_COLOR = fromRGB(  0,   0,   0);
-static const uint16_t BUTTON_1_COLOR = fromRGB(255, 255, 255);
-static const uint16_t BUTTON_2_COLOR = fromRGB(255, 255,   0);
-static const uint16_t BUTTON_3_COLOR = fromRGB(  0,   0, 255);
-
-static const uint16_t BUTTON_COLORS[]{
+static const lv_color_t BUTTON_COLORS[]{
 	BUTTON_0_COLOR,
 	BUTTON_1_COLOR,
 	BUTTON_2_COLOR,
@@ -69,6 +51,10 @@ static const uint16_t W = 320;
 static const uint16_t H = 240;
 static const uint8_t TFT_ROTATION = 1;
 static const uint32_t TFT_SCREEN_OFF = 30 * 1000; // 30 seconds
+
+static const uint16_t TOUCH_CALIBRATION[5] = { 174, 3571, 311, 3539, 1 };
+
+static const uint8_t LVGL_TICK_PERIOD = 20;
 //}
 
 // BUTTONS {
