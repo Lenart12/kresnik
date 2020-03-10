@@ -2,7 +2,6 @@
 #define PCF8574_WDDR_H
 
 #include <PCF8574.h>
-#include <globals.h>
 
 class PCF8574_WDDR : public virtual PCF8574{
 public:

@@ -14,10 +14,15 @@
 void setup(){
 	Serial.begin(115200);
 	lv_init();
-	xSemaphoreGive(i2c_semaphore);
-	xSemaphoreGive(timing_semaphore);
-
 	lv_log_register_print_cb(logging_cb);
+
+	xSemaphoreGive(i2c_semaphore);
+	xSemaphoreGive(tempature_semaphore);
+	xSemaphoreGive(timing_semaphore);
+	for(uint8_t i = 0; i < 4; i++){
+		xSemaphoreGive(motor_semaphores[i]);
+	}
+	LV_LOG_TRACE("Started semaphores");
 
 	display_init();
 
@@ -54,6 +59,8 @@ void setup(){
 
 	EEPROM.begin(sizeof(config));
 	#ifdef CLEAN_CONFIG
+	EEPROM.get(0, config);
+	config.control.load_default();
 	EEPROM.put(0, config);
 	EEPROM.commit();
 	#else
@@ -73,17 +80,26 @@ void setup(){
 	lv_task_create(time_display_task, 1000, LV_TASK_PRIO_LOWEST, NULL);
 	LV_LOG_TRACE("Created time display task");
 
-	lv_task_create(screensaver_task, 1000, LV_TASK_PRIO_LOW, NULL);
+	lv_task_once(lv_task_create(tempature_request_task, 2000, LV_TASK_PRIO_MID, NULL));
+	LV_LOG_TRACE("Measured tempature");
+
+	request_temp_task_h = lv_task_create(tempature_request_task, 10000, LV_TASK_PRIO_MID, NULL);
+	LV_LOG_INFO("Created tempature request task");
+
+	screensaver_task_h = lv_task_create(screensaver_task, 1000, LV_TASK_PRIO_LOW, NULL);
 	LV_LOG_TRACE("Created screensaver task");
 
-	lv_task_create(tempature_request_task, 10000, LV_TASK_PRIO_MID, NULL);
-	LV_LOG_TRACE("Created tempature request task");
+	lv_task_create(tempature_shift_task, 60 * 60 * 1000, LV_TASK_PRIO_MID, NULL);
+	LV_LOG_TRACE("Created tempature shift task");
 
-	lv_task_create(control_update_task, 1000, LV_TASK_PRIO_HIGH, NULL);
-	LV_LOG_TRACE("Created control update task");
+	lv_task_create(control_minute_update_task, 60000, LV_TASK_PRIO_HIGH, NULL);
+	LV_LOG_TRACE("Created control minute update task");
+
+	config.control.setup();
+
+	lv_main();
 
 	LV_LOG_INFO("Setup complete");
-	lv_main();
 }
 
 void loop(){

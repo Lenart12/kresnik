@@ -25,4 +25,6 @@ T getWithSemaphore(T &variable, SemaphoreHandle_t handle){
 	LV_LOG_TRACE("Gave semaphore");
     return out;
 }
+
+void giveSemaphore(SemaphoreHandle_t *semaphore);
 #endif

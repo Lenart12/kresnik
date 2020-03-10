@@ -5,6 +5,7 @@
 #include <Ticker.h>
 #include <DallasTemperature.h>
 
+
 struct TempatureAddress{
     uint8_t lane;
     DeviceAddress address;
@@ -12,89 +13,57 @@ struct TempatureAddress{
     float read();
 };
 
-class MotorControl{
-public:
-    MotorControl():MotorControl(false){};
-    MotorControl(bool set_up):
-    set_up(false){};
-
-    MotorControl(
-        uint8_t id,
-        bool enabled,
-        float target_temp,
-        float heating_offset_coeficient,
-        TempatureAddress circuit_addr,
-        TempatureAddress outside_addr):
-        id(id),
-        set_up(true),
-        target_temp(target_temp),
-        heating_offset_coeficient(heating_offset_coeficient),
-        circuit_addr(circuit_addr),
-        outside_addr(outside_addr)    
-    {};
-
-    void update();
-protected:
-    uint8_t id;
-
-    bool set_up;
-    bool enabled;
-
-    float target_temp;
-    float heating_offset_coeficient;
-
-    TempatureAddress circuit_addr;
-    TempatureAddress outside_addr;
-
-    Ticker ticker;
+enum MotorDirection : uint8_t{
+    dir_close = 0,
+    dir_open = 1
 };
 
+void move_motor(uint8_t motor, MotorDirection direction, uint32_t time_ms);
+void stop_motor(uint8_t motor);
 
-enum class RelayControlType : uint8_t{
-    time_of_day,
-    tempature,
-    wifi
-};
+bool relayRead(uint8_t pin);
+void relayWrite(uint8_t pin, bool value);
 
-class RelayControl{
-public:
-    RelayControl():
-    set_up(false){};
+struct Control{
+    bool burner_enabled;
+    float boiler_max_temp;
+    float boiler_min_temp;
 
+    bool hot_water_pump_enabled;
+    float hot_water_min_temp;
+    float hot_water_max_temp;
+
+    bool circulator_pump_enabled;
+    uint16_t circulator_duration;
+    uint16_t circulator_start_time[8];
+
+    bool underfloor_pump_enabled[4];
+    float underfloor_wanted_temp[4];
+    float tempature_slope;
+    float night_time_correction;
+    uint16_t night_time_start;
+    uint16_t night_time_end;
+
+    bool solar_pump_enabled;
+    float max_solar_temp;
+    float collector_temp_difference;
+    bool inter_tank_pump_enabled;
+    float inter_tank_temp_difference;
+    float inter_tank_trigger_tempature; // ----------------------------------------------------
+    bool vacation;
+
+    TempatureAddress boiler_addr;
+    TempatureAddress hot_water_container_addr;
+    TempatureAddress enviroment_addr;
+    TempatureAddress underfloor_addr[4];
+    TempatureAddress solar_collector_addr;
+    TempatureAddress solar_tank_addr;
+    TempatureAddress heat_exchanger_addr;
+
+    void setup();
     void update();
-protected:
-    uint8_t id;
-    
-    bool set_up;
-    bool enabled;
-
-    RelayControlType type;
-
-    bool current_state;
-
-    // time_of_day
-    uint8_t days;
-    uint32_t turn_on_seconds;
-    uint32_t turn_off_seconds;
-
-    // tempature
-    TempatureAddress temp_addr;
-    float switch_tempature;
-    bool inverted;
-};
-
-/*
-
-*/
-
-class Control{
-public:
-    Control(){};
-
-    void update();
-private:
-    MotorControl motors[4];
-    RelayControl relays[16];
+    void update_pumps();
+    void load_default();
 };
 
 #endif

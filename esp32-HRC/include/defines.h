@@ -66,8 +66,6 @@ static const uint8_t BUTTONS[] = {
 	BUTTON_2,
 	BUTTON_3
 };
-static const uint16_t DEBOUNCE_TIME = 500;
-
 // }
 
 // ADDRESSES {
@@ -92,6 +90,20 @@ enum Status_led : uint8_t{
 	user_def_2 = 5,
 	user_def_3 = 6,
 	error = 7
+};
+//}
+
+// RELAY EXPANDER {
+enum Relay_pin : uint8_t{
+	burner = 0,
+	hot_water_pump = 1,
+	underfloor_pump_0 = 2,
+	underfloor_pump_1 = 3,
+	underfloor_pump_2 = 4,
+	underfloor_pump_3 = 5,
+	circulator_pump = 6,
+	solar_pump = 7,
+	inter_tank_pump = 8
 };
 //}
 
