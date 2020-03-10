@@ -96,13 +96,17 @@ void Control::update(){
 
     static bool need_for_heat = false;
     if(need_for_heat && burner_enabled && boiler_tempature < boiler_min_temp){
-        LV_LOG_INFO("Boiler tempature too low - turning on");
         config.burner_seconds++;
-        relayWrite(Relay_pin::burner, true);
+        if(relayRead(Relay_pin::burner) != true){
+            LV_LOG_INFO("Boiler tempature too low - turning on");
+            relayWrite(Relay_pin::burner, true);
+        }
     }
     else if(boiler_tempature > boiler_max_temp){
-        LV_LOG_INFO("Boiler tempature too high - turning off");
-        relayWrite(Relay_pin::burner, false);
+        if(relayRead(Relay_pin::burner) != false){
+            LV_LOG_INFO("Boiler tempature too high - turning off");
+            relayWrite(Relay_pin::burner, false);
+        }
         need_for_heat = false;
     }
 
@@ -155,10 +159,10 @@ void Control::update(){
                     }
                 }
                 else{
-                    uint32_t delta_time = (underfloor_tempature[i] - wanted_tempature) * 2 * 1000;
+                    uint32_t delta_time = (wanted_tempature - underfloor_tempature[i]) * 2 * 1000;
                     delta_time = (delta_time > 10000) ? 10000 : delta_time;
                     if(delta_time > 1000){
-                        String log = (String)"Motor " + i + " needs to correct for " + (underfloor_tempature[i] - wanted_tempature) + " degrees";
+                        String log = (String)"Motor " + i + " needs to correct for " + (wanted_tempature - underfloor_tempature[i]) + " degrees";
                         LV_LOG_INFO(log.c_str());
                         move_motor(i, MotorDirection::dir_open, delta_time);
                     }
