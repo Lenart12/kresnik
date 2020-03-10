@@ -20,6 +20,9 @@ bool relayRead(uint8_t pin){;
 void relayWrite(uint8_t pin, bool value){
     String log = ((value == true) ? "Opening" : "Closing") + (String)" relay " + pin;
     LV_LOG_INFO(log.c_str());
+    if(pin == Relay_pin::burner) status_expander.digitalWrite(Status_led::burner_s, (value == true) ? ON : OFF);
+    else if(pin == Relay_pin::hot_water_pump) status_expander.digitalWrite(Status_led::hot_water_pump_s, (value == true) ? ON : OFF);
+    else if(pin == Relay_pin::circulator_pump) status_expander.digitalWrite(Status_led::circulator_s, (value == true) ? ON : OFF);
 	PCF8574_WDDR *expander = (pin < 8) ? &relay0_expander : &relay1_expander;
 	expander->digitalWrite(pin % 8, (value == true) ? ON : OFF);
 }
@@ -205,14 +208,19 @@ void Control::update(){
     if(getWithSemaphore(minute_update, timing_semaphore)){
         setWithSemaphore(minute_update, false, timing_semaphore);
 
-        night_time = false;
         if(time_client.update()){
             uint16_t minutes = time_client.getHours() * 60 + time_client.getMinutes();
 
+            bool new_night_time = false;
             if((minutes > night_time_start && minutes <= 24 * 60) ||
             (minutes < night_time_end   && minutes > 0))
-                night_time = true;
-            
+                new_night_time = true;
+            if(new_night_time != night_time){
+                night_time = new_night_time;
+                status_expander.digitalWrite(Status_led::night_time_s, night_time);
+            }
+
+
             if(circulator_pump_enabled){
                 bool c_state = relayRead(Relay_pin::circulator_pump);
 

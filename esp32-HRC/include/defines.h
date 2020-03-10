@@ -85,10 +85,10 @@ enum Status_led : uint8_t{
 	power = 0,
 	wifi = 1,
 	moving_motor = 2,
-	night_time = 3,
-	user_def_1 = 4,
-	user_def_2 = 5,
-	user_def_3 = 6,
+	night_time_s = 3,
+	burner_s = 4,
+	hot_water_pump_s = 5,
+	circulator_s = 6,
 	error = 7
 };
 //}
