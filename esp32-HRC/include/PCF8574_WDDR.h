@@ -6,6 +6,9 @@
 class PCF8574_WDDR : public virtual PCF8574{
 public:
 	void writeDDR(uint8_t value);
+protected:
+	void updateGPIO() override;
+	void readGPIO() override;
 };
 
 #endif

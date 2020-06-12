@@ -70,7 +70,7 @@ void stop_motor(uint8_t motor){
     // Turn off the moving motor status led if no motor is moving
     status_expander.digitalWrite(Status_led::moving_motor, ( thermo_expander.read() != 0xFF) ? ON : OFF);
 
-    String log = "Stopping motor " + motor;
+    String log = "Stopping motor " + (String)motor;
     LV_LOG_INFO(log.c_str());
 
     // Unlock the motors to move after two minutes

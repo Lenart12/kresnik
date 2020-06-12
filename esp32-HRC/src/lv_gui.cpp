@@ -33,7 +33,7 @@ void lv_main(){
     lv_obj_set_pos(header, 0, 0);
 
     lv_obj_t * tv = lv_tabview_create(main_screen, NULL);
-    lv_tabview_set_sliding(tv, false);
+    lv_tabview_set_anim_time(tv, 0);
     lv_obj_set_size(tv, lv_disp_get_hor_res(NULL), lv_disp_get_ver_res(NULL) - lv_obj_get_height(header));
     lv_obj_align(tv, header, LV_ALIGN_OUT_BOTTOM_MID, 0, 0);
 
@@ -88,7 +88,7 @@ void lv_create_status(lv_obj_t *tab){
 }
 
 void lv_create_wifi(lv_obj_t *tab){
-    lv_obj_t *preloader = lv_preload_create(tab, NULL);
+    lv_obj_t *preloader = lv_spinner_create(tab, NULL);
     lv_obj_align(preloader, NULL, LV_ALIGN_CENTER, 0, 0);
 
     lv_obj_t *srch = lv_label_create(tab, NULL);
@@ -101,37 +101,37 @@ void lv_create_wifi(lv_obj_t *tab){
 
 void b_en_cb(lv_obj_t *obj, lv_event_t event){
     if(event == LV_EVENT_VALUE_CHANGED){
-        config.control.burner_enabled = lv_cb_is_checked(obj);
+        config.control.burner_enabled = lv_checkbox_is_checked(obj);
     }
 }
 void hwp_en_cb(lv_obj_t *obj, lv_event_t event){
     if(event == LV_EVENT_VALUE_CHANGED){
-        config.control.hot_water_pump_enabled = lv_cb_is_checked(obj);
+        config.control.hot_water_pump_enabled = lv_checkbox_is_checked(obj);
     }
 }
 void c_en_cb(lv_obj_t *obj, lv_event_t event){
     if(event == LV_EVENT_VALUE_CHANGED){
-        config.control.circulator_pump_enabled = lv_cb_is_checked(obj);
+        config.control.circulator_pump_enabled = lv_checkbox_is_checked(obj);
     }
 }
 void uf_0_cb(lv_obj_t *obj, lv_event_t event){
     if(event == LV_EVENT_VALUE_CHANGED){
-        config.control.underfloor_pump_enabled[0] = lv_cb_is_checked(obj);
+        config.control.underfloor_pump_enabled[0] = lv_checkbox_is_checked(obj);
     }
 }
 void uf_1_cb(lv_obj_t *obj, lv_event_t event){
     if(event == LV_EVENT_VALUE_CHANGED){
-        config.control.underfloor_pump_enabled[1] = lv_cb_is_checked(obj);
+        config.control.underfloor_pump_enabled[1] = lv_checkbox_is_checked(obj);
     }
 }
 void uf_2_cb(lv_obj_t *obj, lv_event_t event){
     if(event == LV_EVENT_VALUE_CHANGED){
-        config.control.underfloor_pump_enabled[2] = lv_cb_is_checked(obj);
+        config.control.underfloor_pump_enabled[2] = lv_checkbox_is_checked(obj);
     }
 }
 void uf_3_cb(lv_obj_t *obj, lv_event_t event){
     if(event == LV_EVENT_VALUE_CHANGED){
-        config.control.underfloor_pump_enabled[3] = lv_cb_is_checked(obj);
+        config.control.underfloor_pump_enabled[3] = lv_checkbox_is_checked(obj);
     }
 }
 
@@ -214,9 +214,9 @@ void c_duration_cb(lv_obj_t *obj, lv_event_t event){
 }
 
 void lv_create_settings(lv_obj_t *settings_tab){
-    lv_obj_t *burner_enabled_cb = lv_cb_create(settings_tab, NULL);
-    lv_cb_set_checked(burner_enabled_cb, config.control.burner_enabled);
-    lv_cb_set_text(burner_enabled_cb, "Gorilec");
+    lv_obj_t *burner_enabled_cb = lv_checkbox_create(settings_tab, NULL);
+    lv_checkbox_set_checked(burner_enabled_cb, config.control.burner_enabled);
+    lv_checkbox_set_text(burner_enabled_cb, "Gorilec");
     lv_obj_set_event_cb(burner_enabled_cb, b_en_cb);
     lv_obj_align(burner_enabled_cb, NULL, LV_ALIGN_IN_TOP_LEFT, 20, 10);
 
@@ -244,9 +244,9 @@ void lv_create_settings(lv_obj_t *settings_tab){
     lv_obj_align(max_burner_temp_l, min_burner_temp, LV_ALIGN_OUT_BOTTOM_LEFT, 0, 5);
     lv_obj_align(max_burner_temp, max_burner_temp_l, LV_ALIGN_OUT_BOTTOM_LEFT, 0, 5);
 
-    lv_obj_t *hot_water_pump_enabled = lv_cb_create(settings_tab, NULL);
-    lv_cb_set_checked(hot_water_pump_enabled, config.control.hot_water_pump_enabled);
-    lv_cb_set_text(hot_water_pump_enabled, "Hranilnik");
+    lv_obj_t *hot_water_pump_enabled = lv_checkbox_create(settings_tab, NULL);
+    lv_checkbox_set_checked(hot_water_pump_enabled, config.control.hot_water_pump_enabled);
+    lv_checkbox_set_text(hot_water_pump_enabled, "Hranilnik");
     lv_obj_set_event_cb(hot_water_pump_enabled, hwp_en_cb);
     lv_obj_align(hot_water_pump_enabled, max_burner_temp, LV_ALIGN_OUT_BOTTOM_LEFT, 0, 5);
 
@@ -274,9 +274,9 @@ void lv_create_settings(lv_obj_t *settings_tab){
     lv_obj_align(max_hwc_temp_l, min_hwc_temp, LV_ALIGN_OUT_BOTTOM_LEFT, 0, 5);
     lv_obj_align(max_hwc_temp, max_hwc_temp_l, LV_ALIGN_OUT_BOTTOM_LEFT, 0, 5);
 
-    lv_obj_t *circulation_pump_enabled = lv_cb_create(settings_tab, NULL);
-    lv_cb_set_checked(circulation_pump_enabled, config.control.circulator_pump_enabled);
-    lv_cb_set_text(circulation_pump_enabled, "Krozenje vode");
+    lv_obj_t *circulation_pump_enabled = lv_checkbox_create(settings_tab, NULL);
+    lv_checkbox_set_checked(circulation_pump_enabled, config.control.circulator_pump_enabled);
+    lv_checkbox_set_text(circulation_pump_enabled, "Krozenje vode");
     lv_obj_set_event_cb(circulation_pump_enabled, c_en_cb);
     lv_obj_align(circulation_pump_enabled, max_hwc_temp, LV_ALIGN_OUT_BOTTOM_LEFT, 0, 5);
 
@@ -290,27 +290,27 @@ void lv_create_settings(lv_obj_t *settings_tab){
     lv_obj_set_event_cb(c_duration, c_duration_cb);
     lv_obj_align(c_duration, c_duration_l, LV_ALIGN_OUT_BOTTOM_LEFT, 0, 5);
 
-    lv_obj_t *uf_0_en = lv_cb_create(settings_tab, NULL);
-    lv_cb_set_checked(uf_0_en, config.control.underfloor_pump_enabled[0]);
-    lv_cb_set_text(uf_0_en, "Mansarda");
+    lv_obj_t *uf_0_en = lv_checkbox_create(settings_tab, NULL);
+    lv_checkbox_set_checked(uf_0_en, config.control.underfloor_pump_enabled[0]);
+    lv_checkbox_set_text(uf_0_en, "Mansarda");
     lv_obj_set_event_cb(uf_0_en, uf_0_cb);
     lv_obj_align(uf_0_en, c_duration, LV_ALIGN_OUT_BOTTOM_LEFT, 0, 5);
 
-    lv_obj_t *uf_1_en = lv_cb_create(settings_tab, NULL);
-    lv_cb_set_checked(uf_1_en, config.control.underfloor_pump_enabled[1]);
-    lv_cb_set_text(uf_1_en, "Spalnice");
+    lv_obj_t *uf_1_en = lv_checkbox_create(settings_tab, NULL);
+    lv_checkbox_set_checked(uf_1_en, config.control.underfloor_pump_enabled[1]);
+    lv_checkbox_set_text(uf_1_en, "Spalnice");
     lv_obj_set_event_cb(uf_1_en, uf_1_cb);
     lv_obj_align(uf_1_en, uf_0_en, LV_ALIGN_OUT_BOTTOM_LEFT, 0, 5);
 
-    lv_obj_t *uf_2_en = lv_cb_create(settings_tab, NULL);
-    lv_cb_set_checked(uf_2_en, config.control.underfloor_pump_enabled[2]);
-    lv_cb_set_text(uf_2_en, "Pritlicje");
+    lv_obj_t *uf_2_en = lv_checkbox_create(settings_tab, NULL);
+    lv_checkbox_set_checked(uf_2_en, config.control.underfloor_pump_enabled[2]);
+    lv_checkbox_set_text(uf_2_en, "Pritlicje");
     lv_obj_set_event_cb(uf_2_en, uf_2_cb);
     lv_obj_align(uf_2_en, uf_1_en, LV_ALIGN_OUT_BOTTOM_LEFT, 0, 5);
 
-    lv_obj_t *uf_3_en = lv_cb_create(settings_tab, NULL);
-    lv_cb_set_checked(uf_3_en, config.control.underfloor_pump_enabled[3]);
-    lv_cb_set_text(uf_3_en, "Garaza");
+    lv_obj_t *uf_3_en = lv_checkbox_create(settings_tab, NULL);
+    lv_checkbox_set_checked(uf_3_en, config.control.underfloor_pump_enabled[3]);
+    lv_checkbox_set_text(uf_3_en, "Garaza");
     lv_obj_set_event_cb(uf_3_en, uf_3_cb);
     lv_obj_align(uf_3_en, uf_2_en, LV_ALIGN_OUT_BOTTOM_LEFT, 0, 5);
 }

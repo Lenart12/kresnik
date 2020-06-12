@@ -11,11 +11,18 @@
 #include <tasks.h>
 #include <lv_gui.h>
 
+#include <mutex_util.h>
+
+// Setup function
 void setup(){
+	// Start serial communication
 	Serial.begin(115200);
+	
+	// Start littlevgl
 	lv_init();
 	lv_log_register_print_cb(logging_cb);
 
+	// Initialize mutexes
 	xSemaphoreGive(i2c_mutex);
 	xSemaphoreGive(tempature_mutex);
 	xSemaphoreGive(timing_mutex);
@@ -25,14 +32,18 @@ void setup(){
 	}
 	LV_LOG_TRACE("Initialized mutexes");
 
+	// Start display and I/O
 	display_init();
 
 	button_init();
 	touchpad_init();
 
+	// Start tick handler
 	tick.attach_ms(LVGL_TICK_PERIOD, lv_tick_handler);
 	LV_LOG_TRACE("Created tick handler");
 
+
+	// Start expanders
 	status_expander.begin(PCF8574_STATUS);
 	status_expander.writeDDR(0xFF);
 	thermo_expander.begin(PCF8574_THERMO);
@@ -43,9 +54,9 @@ void setup(){
 	relay1_expander.writeDDR(0xFF);
 
 	status_expander.digitalWrite(Status_led::power, ON);
+	i2cLock();
 	LV_LOG_TRACE("Started pcf8574 expanders");
 
-	xSemaphoreTake(i2c_mutex, portMAX_DELAY);
 	ds2482_0.setStrongPullup();
 	ds2482_1.setStrongPullup();
 
@@ -54,10 +65,12 @@ void setup(){
 
 	tempature_1.setWaitForConversion(false);
 	tempature_2.setWaitForConversion(false);
-	xSemaphoreGive(i2c_mutex);
+	i2cUnlock();
+
 	tempature_request_task(NULL);
 	LV_LOG_TRACE("Started tempature sensors");
 
+	// Load configuration
 	EEPROM.begin(sizeof(config));
 	#ifdef CLEAN_CONFIG
 	EEPROM.get(0, config);
@@ -69,12 +82,15 @@ void setup(){
 	#endif
 	LV_LOG_TRACE("Loaded configuration");
 
+	// Start WiFi
 	WiFi.begin(config.wifi_login.ssid, config.wifi_login.passwd);
 	LV_LOG_TRACE("Started WiFi");
 
+	// Start NTP
 	time_client.begin();
 	time_client.setTimeOffset(NTP_OFFSET);
 
+	// Start tasks
 	lv_task_create(wifi_status_task, 1000, LV_TASK_PRIO_LOW, NULL);
 	LV_LOG_TRACE("Created wifi status task");
 
@@ -102,7 +118,8 @@ void setup(){
 	LV_LOG_INFO("Setup complete");
 }
 
+// Loop function
 void loop(){
 	lv_task_handler();
-	delay(5);
+	delay(1);
 }

@@ -27,6 +27,7 @@ struct WiFi_login{
     char ssid[32];
     char passwd[64];
 };
+
 struct Config{
     WiFi_login wifi_login;
     uint32_t burner_seconds;

@@ -73,17 +73,17 @@ void wifi_choose(lv_obj_t * obj, lv_event_t event){
 
 		lv_disp_load_scr(kb_screen);
 
-		lv_obj_t *kb = lv_kb_create(kb_screen, NULL);
+		lv_obj_t *kb = lv_keyboard_create(kb_screen, NULL);
 		lv_obj_set_size(kb, lv_obj_get_width_fit(kb_screen) - 30, 190);
 		lv_obj_align(kb, NULL, LV_ALIGN_IN_BOTTOM_MID, 0, -10);
-		lv_kb_set_cursor_manage(kb, true);
+		lv_keyboard_set_cursor_manage(kb, true);
 
-		lv_obj_t *ta = lv_ta_create(kb_screen, NULL);
+		lv_obj_t *ta = lv_textarea_create(kb_screen, NULL);
 		lv_obj_set_size(ta, lv_obj_get_width_fit(kb_screen) - 30, 30);
 		lv_obj_align(ta, NULL, LV_ALIGN_IN_TOP_MID, 0, 10);
-		lv_ta_set_text(ta, "");
+		lv_textarea_set_text(ta, "");
 
-		lv_kb_set_ta(kb, ta);
+		lv_keyboard_set_textarea(kb, ta);
 		lv_obj_set_event_cb(kb, wifi_connect);
 	}
 }
@@ -91,7 +91,7 @@ void wifi_choose(lv_obj_t * obj, lv_event_t event){
 void wifi_connect(lv_obj_t * obj, lv_event_t event){
 	switch(event){
 		case LV_EVENT_APPLY:{
-			strcpy(config.wifi_login.passwd, lv_ta_get_text(lv_kb_get_ta(obj)));
+			strcpy(config.wifi_login.passwd, lv_textarea_get_text(lv_keyboard_get_textarea(obj)));
 			WiFi.begin(config.wifi_login.ssid, config.wifi_login.passwd);
 			Serial.println(config.wifi_login.ssid);
 			Serial.println(config.wifi_login.passwd);
@@ -104,7 +104,7 @@ void wifi_connect(lv_obj_t * obj, lv_event_t event){
 			lv_task_create(wifi_search_task, 100, LV_TASK_PRIO_LOW, NULL);
 			break;
 		}
-		default: lv_kb_def_event_cb(obj, event);
+		default: lv_keyboard_def_event_cb(obj, event);
 	}
 }
 
@@ -182,7 +182,6 @@ void tempature_read_task(){
 		LV_LOG_WARN(err.c_str());
 		if(env_temp_err > 5)
         	LV_LOG_ERROR("Enviroment sensor not working");
-        return;
     }
 	else{
 		env_temp_err = 0;
@@ -196,7 +195,6 @@ void tempature_read_task(){
 		LV_LOG_WARN(err.c_str());
 		if(boil_temp_err > 5)
         	LV_LOG_ERROR("Boiler sensor not working");
-        return;
     }
 	else{
 		boil_temp_err = 0;
@@ -210,7 +208,6 @@ void tempature_read_task(){
 		LV_LOG_WARN(err.c_str());
 		if(hwc_temp_err > 5)
         LV_LOG_ERROR("Hot water container sensor not working");
-        return;
     }
 	else{
 		hwc_temp_err = 0;
@@ -248,7 +245,6 @@ void tempature_read_task(){
 			LV_LOG_WARN(err.c_str());
 			if(sc_err > 5)
             	LV_LOG_ERROR("Solar collector sensor not working");
-            return;
         }
         LV_LOG_WARN("Solar collector sensor not working");
     }
@@ -265,7 +261,6 @@ void tempature_read_task(){
 			LV_LOG_WARN(err.c_str());
 			if(st_err > 5)
             	LV_LOG_ERROR("Solar tank sensor not working");
-            return;
         }
         LV_LOG_WARN("Solar tank sensor not working");
     }
@@ -282,7 +277,6 @@ void tempature_read_task(){
 			LV_LOG_WARN(err.c_str());
 			if(he_err > 5)
             	LV_LOG_ERROR("Heat exchanger sensor not working");
-            return;
         }
         LV_LOG_WARN("Heat exchanger sensor not working");
     }

@@ -17,9 +17,6 @@ void display_init(){
 	disp_drv.buffer = &disp_buf;
 	lv_disp_drv_register(&disp_drv);
 
-	lv_theme_t * th = lv_theme_night_init(230, NULL);
-	lv_theme_set_current(th); 
-
 	LV_LOG_TRACE("Display initialized");
 }
 
