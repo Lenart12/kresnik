@@ -22,6 +22,8 @@
 #include "PCint.h"
 #endif
 
+#include <mutex_util.h>
+
 PCF8574::PCF8574() :
 		_PORT(0), _PIN(0), _DDR(0), _address(0)
 #ifdef PCF8574_INTERRUPT_SUPPORT
@@ -259,10 +261,12 @@ void PCF8574::readGPIO() {
 #endif
 
 	/* Start request, wait for data and receive GPIO values as byte */
+	i2cLock();
 	Wire.requestFrom(_address, (uint8_t) 0x01);
 	while (Wire.available() < 1)
 		;
 	_PIN = I2CREAD();
+	i2cUnlock();
 }
 
 void PCF8574::updateGPIO() {
@@ -275,7 +279,9 @@ void PCF8574::updateGPIO() {
 	uint8_t value = (_PIN & ~_DDR) | _PORT;
 
 	/* Start communication and send GPIO values as byte */
+	i2cLock();
 	Wire.beginTransmission(_address);
 	I2CWRITE(value);
 	Wire.endTransmission();
+	i2cUnlock();
 }

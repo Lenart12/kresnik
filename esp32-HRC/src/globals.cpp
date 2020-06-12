@@ -1,8 +1,8 @@
 #include <globals.h>
 
-SemaphoreHandle_t i2c_semaphore = xSemaphoreCreateBinary();
-SemaphoreHandle_t timing_semaphore = xSemaphoreCreateBinary();
-SemaphoreHandle_t tempature_semaphore= xSemaphoreCreateBinary();
+SemaphoreHandle_t i2c_mutex = xSemaphoreCreateMutex();
+SemaphoreHandle_t timing_mutex = xSemaphoreCreateMutex();
+SemaphoreHandle_t tempature_mutex= xSemaphoreCreateMutex();
 
 bool minute_update;
 
@@ -34,11 +34,11 @@ lv_color_t buf[LV_HOR_RES_MAX * 10];
 lv_point_t button_targets[4];
 
 Ticker motor_tickers[4];
-xSemaphoreHandle motor_semaphores[4] = {
-    xSemaphoreCreateBinary(),
-    xSemaphoreCreateBinary(),
-    xSemaphoreCreateBinary(),
-    xSemaphoreCreateBinary()
+xSemaphoreHandle motor_mutexes[4] = {
+    xSemaphoreCreateMutex(),
+    xSemaphoreCreateMutex(),
+    xSemaphoreCreateMutex(),
+    xSemaphoreCreateMutex()
 };
 
 float boiler_temp[24] = {0};

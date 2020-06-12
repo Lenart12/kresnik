@@ -1,5 +1,5 @@
 #include <tasks.h>
-#include <semaphore_util.h>
+#include <mutex_util.h>
 #include <lv_gui.h>
 #include <EEPROM.h>
 
@@ -159,13 +159,14 @@ void screensaver_task(lv_task_t *task){
 
 void tempature_request_task(lv_task_t *task){
 	LV_LOG_TRACE("Started tempature request task");
-	LV_LOG_TRACE("Taking i2c semaphore");
-	xSemaphoreTake(i2c_semaphore, portMAX_DELAY);
-	LV_LOG_TRACE("Took i2c semaphore");
+	
+	i2cLock();
+
 	tempature_1.requestTemperatures();
 	tempature_2.requestTemperatures();
-	xSemaphoreGive(i2c_semaphore);
-	LV_LOG_TRACE("Gave i2c semaphore");
+
+	i2cUnlock();
+
 	conversion_ticker.once_ms(750, tempature_read_task);
 	LV_LOG_TRACE("Completed tempature request task");
 }
@@ -305,7 +306,7 @@ void tempature_read_task(){
 	}
 
 
-	xSemaphoreTake(tempature_semaphore, portMAX_DELAY);
+	xSemaphoreTake(tempature_mutex, portMAX_DELAY);
 	boiler_temp[0] = boiler_tempature;
 	hot_water_container_temp[0] = hot_water_container_tempature;
 	enviroment_temp[0] = enviroment_tempature;
@@ -313,7 +314,7 @@ void tempature_read_task(){
 	solar_collector_temp[0] = solar_collector_tempature;
 	solar_tank_temp[0] = solar_tank_tempature;
 	heat_exchanger_temp[0] = heat_exchanger_tempature;
-	xSemaphoreGive(tempature_semaphore);
+	xSemaphoreGive(tempature_mutex);
 
 	static bool first_time = true;
 	if(first_time){
@@ -326,7 +327,7 @@ void tempature_read_task(){
 
 void tempature_shift_task(lv_task_t *task){
 	LV_LOG_TRACE("Started tempature shift task");
-	xSemaphoreTake(tempature_semaphore, portMAX_DELAY);
+	xSemaphoreTake(tempature_mutex, portMAX_DELAY);
 	lv_chart_set_next(env_chart, env_data, enviroment_temp[0]);
 	lv_chart_refresh(env_chart);
 	for(int8_t i = 22; i >= 0; i--){
@@ -340,7 +341,7 @@ void tempature_shift_task(lv_task_t *task){
 		solar_tank_temp[i + 1] = solar_tank_temp[i];
 		heat_exchanger_temp[i + 1] = heat_exchanger_temp[i + 1];
 	}
-	xSemaphoreGive(tempature_semaphore);
+	xSemaphoreGive(tempature_mutex);
 	LV_LOG_TRACE("Completed tempature shift task");
 }
 
@@ -352,6 +353,6 @@ void control_update_task(lv_task_t *task){
 
 void control_minute_update_task(lv_task_t *t){
 	LV_LOG_TRACE("Started control minute update task");
-	setWithSemaphore(minute_update, true, timing_semaphore);
+	setWithMutex(minute_update, true, timing_mutex);
 	LV_LOG_TRACE("Completed control minute update task");
 }

@@ -1,72 +1,104 @@
 #include <control.h>
 #include <globals.h>
-#include <semaphore_util.h>
+#include <mutex_util.h>
 #include <tasks.h>
 #include <EEPROM.h>
 
+// Reads the tempature of the sensor
 float TempatureAddress::read(){
+    // Use the right expander
     DallasTemperature *tempature = (lane == 1) ? &tempature_1 : &tempature_2;
 
-    xSemaphoreTake(i2c_semaphore, portMAX_DELAY);
+    i2cLock();
+    // Read tempature
     float f = tempature->getTempC(address);
-    xSemaphoreGive(i2c_semaphore);
+    i2cUnlock();
+
     return f;
 }
 
+// Reads the value of the relay expander
 bool relayRead(uint8_t pin){;
+    // Use the right expander
 	PCF8574_WDDR *expander = (pin < 8) ? &relay0_expander : &relay1_expander;
+
+    // Return the pin value
 	return expander->digitalRead(pin % 8) == ON;
 }
+
+// Writes the value to the relay
 void relayWrite(uint8_t pin, bool value){
     String log = ((value == true) ? "Opening" : "Closing") + (String)" relay " + pin;
     LV_LOG_INFO(log.c_str());
+
+    // Set the status led for burner or pump
     if(pin == Relay_pin::burner) status_expander.digitalWrite(Status_led::burner_s, (value == true) ? ON : OFF);
     else if(pin == Relay_pin::hot_water_pump) status_expander.digitalWrite(Status_led::hot_water_pump_s, (value == true) ? ON : OFF);
     else if(pin == Relay_pin::circulator_pump) status_expander.digitalWrite(Status_led::circulator_s, (value == true) ? ON : OFF);
+
+    // Use the right expander
 	PCF8574_WDDR *expander = (pin < 8) ? &relay0_expander : &relay1_expander;
+
+    // Set the pin
 	expander->digitalWrite(pin % 8, (value == true) ? ON : OFF);
 }
 
+// Move the specified motor in the direction for a certain time
 void move_motor(uint8_t motor, MotorDirection direction, uint32_t time_ms){
-    xSemaphoreTake(motor_semaphores[motor], portMAX_DELAY);
-    String log = ((direction == MotorDirection::dir_open) ? "Opening" : "Closing") + (String)" motor " + motor + " for " + time_ms + "ms";
-    LV_LOG_INFO(log.c_str());
+    // Try to move the motor for 10ms
+    if( xSemaphoreTake(motor_mutexes[motor], 10 / portTICK_PERIOD_MS ) == pdTRUE ){
+        String log = ((direction == MotorDirection::dir_open) ? "Opening" : "Closing") + (String)" motor " + motor + " for " + time_ms + "ms";
+        LV_LOG_INFO(log.c_str());
 
-    uint8_t dir = (direction == MotorDirection::dir_open) ? 0 : 1;
-    thermo_expander.digitalWrite( motor * 2 + dir, ON);
-    status_expander.digitalWrite(Status_led::moving_motor, ON);
+        // Move the motor
+        uint8_t dir = (direction == MotorDirection::dir_open) ? 0 : 1;
+        thermo_expander.digitalWrite( motor * 2 + dir, ON);
+        // Set the moving motor status led
+        status_expander.digitalWrite(Status_led::moving_motor, ON);
 
-    motor_tickers[motor].once_ms(time_ms, stop_motor, motor);
+        // Start the timer to turn off the motor
+        motor_tickers[motor].once_ms(time_ms, stop_motor, motor);
+    }
 }
 
+// Function that stops the specified motor
 void stop_motor(uint8_t motor){
+    // Turn off both motor directions 
     thermo_expander.digitalWrite(motor * 2, OFF);
     thermo_expander.digitalWrite(motor * 2 + 1, OFF);
+
+    // Turn off the moving motor status led if no motor is moving
     status_expander.digitalWrite(Status_led::moving_motor, ( thermo_expander.read() != 0xFF) ? ON : OFF);
-    char log[20] = "Stopping motor ";
-    strcat(log, ((String)motor).c_str());
-    LV_LOG_INFO(log);
-    motor_tickers[motor].once_ms(120000, giveSemaphore, &motor_semaphores[motor]);
+
+    String log = "Stopping motor " + motor;
+    LV_LOG_INFO(log.c_str());
+
+    // Unlock the motors to move after two minutes
+    motor_tickers[motor].once_ms(120000, unlockMutex, &motor_mutexes[motor]);
 }
 
+// Setup function for all the control related things
 void Control::setup(){
     thermo_expander.write(0xFF);
     relay0_expander.write(0xFF);
     relay1_expander.write(0xFF);
 
     LV_LOG_INFO("Closing motors and reseting underfloor pumps");
+
+    // Close all the motors and turn on/off all the pumps
     for(uint8_t i = 0; i < 4; i++){
-        // move_motor(i, MotorDirection::dir_close, 10000);
         move_motor(i, MotorDirection::dir_close, 120000);
         relayWrite(Relay_pin::underfloor_pump_0 + i, underfloor_pump_enabled[i]);
     }
 
+    // Turn off the circulator pump
     relayWrite(Relay_pin::circulator_pump, false);
 }
 
-
+// Update task
 void Control::update(){
-    xSemaphoreTake(tempature_semaphore, portMAX_DELAY);
+    // Read all the tempatures
+    xSemaphoreTake(tempature_mutex, portMAX_DELAY);
     float boiler_tempature = boiler_temp[0];
     float hot_water_container_tempature = hot_water_container_temp[0];
     float enviroment_tempature = enviroment_temp[0];
@@ -77,16 +109,20 @@ void Control::update(){
     float solar_collector_tempature = solar_collector_temp[0];
     float solar_tank_tempature = solar_tank_temp[0];
     float heat_exchanger_tempature = heat_exchanger_temp[0];
-    xSemaphoreGive(tempature_semaphore);
+    xSemaphoreGive(tempature_mutex);
+
     static int i = 0;
 
+    // Calculate tempature correction
     float underfloor_temp_correction = -(enviroment_tempature * tempature_slope);
 
+    // Adjust for night time
     static bool night_time = false;
     if(night_time){
         underfloor_temp_correction -= night_time_correction;
     }
 
+    // Log tempatures
     String tempatures = (String)i++ + ':' + (String)boiler_tempature + ' ' + hot_water_container_tempature + ' ' +
     enviroment_tempature + ' ' + underfloor_tempature[0] + ' '
 	+ underfloor_tempature[1] + ' ' + underfloor_tempature[2] + ' '
@@ -94,6 +130,7 @@ void Control::update(){
 	solar_tank_tempature + ' ' + heat_exchanger_tempature + ' ' + underfloor_temp_correction;
     LV_LOG_TRACE(tempatures.c_str());
 
+    // Turn on the boiler if it is required
     static bool need_for_heat = false;
     if(need_for_heat && burner_enabled && boiler_tempature < boiler_min_temp){
         config.burner_seconds++;
@@ -110,7 +147,9 @@ void Control::update(){
         need_for_heat = false;
     }
 
+    // Turn hot water pump on/off if required
     bool hwp_state = relayRead(Relay_pin::hot_water_pump);
+
     if(hot_water_pump_enabled && !hwp_state &&
         hot_water_container_tempature < hot_water_min_temp &&
         burner_enabled &&
@@ -134,6 +173,7 @@ void Control::update(){
         }
     }
 
+    // Open/close the motors if needed
     for(uint8_t i = 0; i < 4; i++){
         if(underfloor_tempature[i] >= 40.00f){
             String log = (String)"Underfloor circuit " + i + " tempature over 40C! (" + underfloor_tempature[i] + "C)";
@@ -145,8 +185,10 @@ void Control::update(){
         need_for_heat = true;
         
         if(!hwp_state){
-            if(xSemaphoreTake(motor_semaphores[i], 5)){
-                xSemaphoreGive(motor_semaphores[i]);
+            if(xSemaphoreTake(motor_mutexes[i], 10 / portTICK_PERIOD_MS)){
+                xSemaphoreGive(motor_mutexes[i]);
+
+                // Calculate wanted tempature and adjust the motor
 
                 float wanted_tempature = underfloor_wanted_temp[i] + underfloor_temp_correction;
                 if(underfloor_tempature[i] >= wanted_tempature){
@@ -171,9 +213,9 @@ void Control::update(){
         }
     }
 
+    // Turn on/off inter tank pump if needed
     static bool force_inter_tank_pump = false;
     if(solar_pump_enabled){
-
         if(inter_tank_pump_enabled){
             bool itp_state = relayRead(Relay_pin::inter_tank_pump);
             if((!itp_state && solar_tank_tempature > inter_tank_trigger_tempature &&
@@ -209,12 +251,16 @@ void Control::update(){
         }
     }
 
-    if(getWithSemaphore(minute_update, timing_semaphore)){
-        setWithSemaphore(minute_update, false, timing_semaphore);
+    // Update every minute
+    if(getWithMutex(minute_update, timing_mutex)){
+        setWithMutex(minute_update, false, timing_mutex);
 
+        // If ntp is working
         if(time_client.update()){
+            // Calcualte total minutes in the day
             uint16_t minutes = time_client.getHours() * 60 + time_client.getMinutes();
 
+            // Check for night time
             bool new_night_time = false;
             if((minutes > night_time_start && minutes <= 24 * 60) ||
             (minutes < night_time_end   && minutes > 0))
@@ -224,7 +270,7 @@ void Control::update(){
                 status_expander.digitalWrite(Status_led::night_time_s, night_time);
             }
 
-
+            // Turn on the circulator if its time
             if(circulator_pump_enabled){
                 bool c_state = relayRead(Relay_pin::circulator_pump);
 
@@ -244,6 +290,7 @@ void Control::update(){
                 }
             }
 
+            // Turn on/off inter tank pump
             bool itp_state = relayRead(Relay_pin::inter_tank_pump);
             if(minutes == 60 * 3 + 1 ||
                minutes == 60 * 3 + 2){
@@ -265,11 +312,12 @@ void Control::update(){
         if(relayRead(Relay_pin::solar_pump)){
             config.solar_minutes++;
         }
+        EEPROM.put(0, config);
+        EEPROM.commit();
     }
-    EEPROM.put(0, config);
-    EEPROM.commit();
 }
 
+// Function that updates pumps
 void Control::update_pumps(){
     if(!relayRead(Relay_pin::hot_water_pump)){
         for(uint8_t i = 0; i < 4; i++){
@@ -277,7 +325,7 @@ void Control::update_pumps(){
             if(!uf_state && underfloor_pump_enabled[i]){
                 stop_motor(i);
                 motor_tickers[i].detach();
-                xSemaphoreGive(motor_semaphores[i]);
+                xSemaphoreGive(motor_mutexes[i]);
                 move_motor(i, MotorDirection::dir_close, 120 * 1000);
             }
             if(uf_state != underfloor_pump_enabled[i]){
@@ -291,7 +339,6 @@ void Control::update_pumps(){
         relayWrite(Relay_pin::circulator_pump, false);
     if(!inter_tank_pump_enabled)
         inter_tank_pump_enabled = false;
-    //TODO Napaka? ------------------------------------------------------------------------------------------------------------
 }
 
 void Control::load_default(){

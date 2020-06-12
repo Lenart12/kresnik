@@ -4,9 +4,10 @@
 #include <defines.h>
 
 #include <Arduino.h>
-extern SemaphoreHandle_t i2c_semaphore;
-extern SemaphoreHandle_t timing_semaphore;
-extern SemaphoreHandle_t tempature_semaphore;
+extern SemaphoreHandle_t i2c_mutex;
+
+extern SemaphoreHandle_t timing_mutex;
+extern SemaphoreHandle_t tempature_mutex;
 
 extern bool minute_update;
 
@@ -59,7 +60,7 @@ extern lv_color_t buf[LV_HOR_RES_MAX * 10];
 extern lv_point_t button_targets[4];
 
 extern Ticker motor_tickers[4];
-extern xSemaphoreHandle motor_semaphores[4];
+extern xSemaphoreHandle motor_mutexes[4];
 
 extern float boiler_temp[24];
 extern float hot_water_container_temp[24];
