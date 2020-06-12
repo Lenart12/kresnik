@@ -4,7 +4,9 @@
 #include <inttypes.h>
 #include <lvgl.h>
 
-// #define CLEAN_CONFIG
+#define CLEAN_CONFIG 0
+
+#define SIM_TEMPATURE 1
 
 // PINS {
 static const uint8_t SD_CS = 4;     // 26

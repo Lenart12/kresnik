@@ -2,6 +2,7 @@
 #include <mutex_util.h>
 #include <lv_gui.h>
 #include <EEPROM.h>
+#include <time.h>
 
 void wifi_status_task(lv_task_t *task){
 	LV_LOG_TRACE("Started wifi task");
@@ -9,58 +10,43 @@ void wifi_status_task(lv_task_t *task){
     wl_status_t status = WiFi.status();
     if(status != last_status){
         last_status = status;
-		switch(status){
-			case WL_CONNECTED:{
-				LV_LOG_INFO("Got WiFi connection");
-				lv_obj_clean(wifi_tab);
-				lv_obj_t *txt;
-				txt = lv_label_create(wifi_tab, NULL);
-				char buf[128] = "Povezan z ";
-				strcat(buf, config.wifi_login.ssid);
-				strcat(buf, "\nIP: ");
-				strcat(buf, WiFi.localIP().toString().c_str());
-				lv_label_set_text(txt, buf);	
-				lv_obj_align(txt, NULL, LV_ALIGN_CENTER, 0, 0);
-				status_expander.digitalWrite(Status_led::wifi, ON);
-				lv_label_set_text(status_label, LV_SYMBOL_WIFI);
-				lv_obj_align(status_label, NULL, LV_ALIGN_IN_RIGHT_MID, -5, 0);
-				goto end;
-			}
-			case WL_DISCONNECTED:
-			case WL_CONNECTION_LOST:
-			LV_LOG_INFO("Lost WiFi connection"); break;
-			case WL_CONNECT_FAILED:
-			LV_LOG_INFO("Failed connecting to WiFi"); break;
-			case WL_SCAN_COMPLETED: goto end;
-			default: 
-			LV_LOG_INFO("WiFi not connected");
+
+		String text;
+		switch (status){
+		case WL_CONNECTED:{
+			configTime(NTP_OFFSET, 3600, "pool.ntp.org");
+
+			text = "Povezan z " + (String)config.wifi_login.ssid + "\nIP: " + WiFi.localIP().toString();
+			lv_label_set_text(status_label, LV_SYMBOL_WIFI);
+			status_expander.digitalWrite(Status_led::wifi, ON);
+			break;
+		}	
+		default:{
+			text = "Povezava ni uspesna";
+			lv_label_set_text(status_label, "");
+			status_expander.digitalWrite(Status_led::wifi, OFF);
+			break;
 		}
-		lv_label_set_text(status_label, "");
-		status_expander.digitalWrite(Status_led::wifi, OFF);
-		WiFi.reconnect();
+		}
+		lv_label_set_text(lv_obj_get_child(wifi_status, NULL), text.c_str());
+		lv_obj_align(lv_obj_get_child(wifi_status, NULL), NULL, LV_ALIGN_CENTER, 0, 0);
+		lv_obj_align(status_label, NULL, LV_ALIGN_IN_RIGHT_MID, -5, 0);
+		lv_obj_align(wifi_list, wifi_status, LV_ALIGN_OUT_BOTTOM_MID, 0, 5);
     }
-	end:
 	LV_LOG_TRACE("Completed wifi task");
 }
 
 void wifi_search_task(lv_task_t *task){
 	if(WiFi.scanComplete() == WIFI_SCAN_FAILED){
 		WiFi.scanNetworks(true);
-		// lv_obj_clean(wifi_tab);
-		// lv_obj_t * lab = lv_label_create(wifi_tab, NULL);
-		// lv_label_set_text(lab, "Napaka pri iskanju omrezji");
-		// lv_obj_align(lab, NULL, LV_ALIGN_CENTER, 0, 0);
-		// lv_task_del(task);
 	}
 	else if(WiFi.scanComplete() > 0){
-		lv_obj_clean(wifi_tab);
-		lv_obj_t * list = lv_list_create(wifi_tab, NULL);
-		lv_obj_set_size(list, lv_obj_get_width_fit(wifi_tab), lv_obj_get_height_fit(wifi_tab));
-		lv_obj_align(list, NULL, LV_ALIGN_CENTER, 0, 0);
-
+		LV_LOG_INFO("WiFi scan completed");
+		lv_list_clean(wifi_list);
 		lv_obj_t *list_btn;
+
 		for(uint8_t i = 0; i < WiFi.scanComplete(); i++){
-			list_btn = lv_list_add_btn(list, NULL, WiFi.SSID(i).c_str());
+			list_btn = lv_list_add_btn(wifi_list, NULL, WiFi.SSID(i).c_str());
 			lv_obj_set_event_cb(list_btn, wifi_choose);
 		}
 		lv_task_del(task);
@@ -115,9 +101,15 @@ void status_display_task(lv_task_t *task){
 }
 
 void time_display_task(lv_task_t *task){
-	if(WiFi.status() == WL_CONNECTED){
-		if(time_client.update()){
-			lv_label_set_text(time_label, time_client.getFormattedTime().c_str());
+	tm time;
+	if(getLocalTime(&time, 5)){
+		char ctime[10];
+		strftime(ctime, 10, "%H:%M:%S", &time);
+		lv_label_set_text(time_label, ctime);
+
+		// Refresh time once per hour to prevent time drift due to timer accuracy
+		if(time.tm_min == 0 && time.tm_sec <= 1){
+			configTime(NTP_OFFSET, 3600, "pool.ntp.org");
 		}
 	}
 }
@@ -127,6 +119,7 @@ void screensaver_task(lv_task_t *task){
     uint32_t last_interaction = lv_disp_get_inactive_time(NULL);
 
 	static bool screensaver = false;
+
 	if(screensaver || last_interaction > TFT_SCREEN_OFF){
 		if(!screensaver){
 			EEPROM.put(0, config);
@@ -140,6 +133,7 @@ void screensaver_task(lv_task_t *task){
 			LV_LOG_TRACE("Created control update task");
 
 			screensaver = true;
+
 			digitalWrite(TFT_LED, OFF);
 			LV_LOG_INFO("Screen turning off");
 		}
@@ -172,6 +166,7 @@ void tempature_request_task(lv_task_t *task){
 }
 
 void tempature_read_task(){
+	#if SIM_TEMPATURE == 0
 	LV_LOG_TRACE("Started tempature read task");
 	static uint8_t env_temp_err = 0;
 	float enviroment_tempature = config.control.enviroment_addr.read();
@@ -283,6 +278,23 @@ void tempature_read_task(){
 	else{
 		he_err = 0;
 	}
+
+	#else
+
+	static float boiler_tempature = 40.0;
+	static float hot_water_container_tempature = 30.0;
+	static float enviroment_tempature = 12.0;
+	static float underfloor_tempature[4] = {
+		16.0,
+		17.0,
+		17.5,
+		18.0
+	};
+	static float solar_collector_tempature = 50.0;
+	static float solar_tank_tempature = 35.0;
+	static float heat_exchanger_tempature = 30.0;
+
+	#endif
 
 	if(digitalRead(TFT_LED) == ON){
 		String tempatures = 

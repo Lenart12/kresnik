@@ -53,6 +53,7 @@ void move_motor(uint8_t motor, MotorDirection direction, uint32_t time_ms){
         // Move the motor
         uint8_t dir = (direction == MotorDirection::dir_open) ? 0 : 1;
         thermo_expander.digitalWrite( motor * 2 + dir, ON);
+        thermo_expander.digitalWrite( motor * 2 + (1 - dir), OFF);
         // Set the moving motor status led
         status_expander.digitalWrite(Status_led::moving_motor, ON);
 
@@ -256,9 +257,10 @@ void Control::update(){
         setWithMutex(minute_update, false, timing_mutex);
 
         // If ntp is working
-        if(time_client.update()){
+        tm time;
+        if(getLocalTime(&time, 10)){
             // Calcualte total minutes in the day
-            uint16_t minutes = time_client.getHours() * 60 + time_client.getMinutes();
+            uint16_t minutes = time.tm_hour * 60 + time.tm_min;
 
             // Check for night time
             bool new_night_time = false;

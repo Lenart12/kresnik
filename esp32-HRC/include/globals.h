@@ -37,10 +37,6 @@ struct Config{
 extern Config config;
 
 #include <WiFi.h>
-#include <WiFiUdp.h>
-#include <NTPClient.h>
-extern WiFiUDP ntp_UDP;
-extern NTPClient time_client;
 
 #include <OneWire.h>
 #include <DallasTemperature.h>

@@ -17,9 +17,6 @@ PCF8574_WDDR relay1_expander;
 
 Config config;
 
-WiFiUDP ntp_UDP;
-NTPClient time_client(ntp_UDP);
-
 OneWire ds2482_0(DS2482_0);
 OneWire ds2482_1(DS2482_1);
 DallasTemperature tempature_1(&ds2482_0);

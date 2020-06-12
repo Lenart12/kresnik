@@ -1,12 +1,17 @@
 #include <lv_gui.h>
 #include <tasks.h>
+#include <control.h>
 
 lv_obj_t *main_screen;
 lv_obj_t *kb_screen;
+lv_obj_t *screensaver_screen;
 lv_obj_t *time_label;
 lv_obj_t *status_label;
 lv_obj_t *header;
 lv_obj_t *wifi_tab;
+lv_obj_t *wifi_status;
+lv_obj_t *wifi_list;
+lv_obj_t *manual_control_tab;
 lv_obj_t *status_tab;
 lv_obj_t *temp_label;
 lv_obj_t *env_chart;
@@ -16,6 +21,7 @@ lv_obj_t *relay_label;
 void lv_main(){
     main_screen = lv_cont_create(NULL, NULL);
     kb_screen = lv_cont_create(NULL, NULL);
+    screensaver_screen = lv_cont_create(NULL, NULL);
     lv_disp_load_scr(main_screen);
 
     header = lv_cont_create(main_screen, NULL);
@@ -26,7 +32,11 @@ void lv_main(){
     lv_obj_align(status_label, NULL, LV_ALIGN_IN_RIGHT_MID, -LV_DPI/10, 0);
 
     time_label = lv_label_create(header, NULL);
-    lv_label_set_text(time_label, time_client.getFormattedTime().c_str());
+    tm time;
+    getLocalTime(&time, 10);
+    char ctime[10];
+    strftime(ctime, 10, "%H:%M:%S", &time);
+    lv_label_set_text(time_label, ctime);
     lv_obj_align(time_label, NULL, LV_ALIGN_IN_LEFT_MID, LV_DPI/10, 0);
 
     lv_cont_set_fit2(header, LV_FIT_NONE, LV_FIT_TIGHT);
@@ -40,10 +50,12 @@ void lv_main(){
     status_tab = lv_tabview_add_tab(tv, LV_SYMBOL_HOME);
     lv_obj_t * settings_tab = lv_tabview_add_tab(tv, LV_SYMBOL_SETTINGS);
     wifi_tab = lv_tabview_add_tab(tv, LV_SYMBOL_WIFI);
+    manual_control_tab = lv_tabview_add_tab(tv, LV_SYMBOL_EDIT);
 
     lv_create_status(status_tab);
     lv_create_wifi(wifi_tab);
     lv_create_settings(settings_tab);
+    lv_create_manual_control(manual_control_tab);
 }
 
 void lv_create_status(lv_obj_t *tab){
@@ -88,15 +100,44 @@ void lv_create_status(lv_obj_t *tab){
 }
 
 void lv_create_wifi(lv_obj_t *tab){
-    lv_obj_t *preloader = lv_spinner_create(tab, NULL);
-    lv_obj_align(preloader, NULL, LV_ALIGN_CENTER, 0, 0);
+    wifi_status = lv_cont_create(tab, NULL);
+    lv_obj_t *label = lv_label_create(wifi_status, NULL);
+    lv_label_set_text(label, "Iskanje omrezji");
 
-    lv_obj_t *srch = lv_label_create(tab, NULL);
-    lv_label_set_text(srch, "Iskanje omrezji");
-    lv_obj_align(srch, preloader, LV_ALIGN_OUT_TOP_MID, 0, 0);
+    lv_cont_set_fit2(wifi_status, LV_FIT_PARENT, LV_FIT_TIGHT);
 
-    WiFi.scanNetworks(true);
+    lv_obj_align(wifi_status, NULL, LV_ALIGN_IN_TOP_MID, 0, 0);
+
+    wifi_list = lv_list_create(tab, NULL);
+    lv_obj_align(wifi_list, wifi_status, LV_ALIGN_OUT_BOTTOM_MID, 0, 5);
+
     lv_task_create(wifi_search_task, 100, LV_TASK_PRIO_LOW, NULL);
+}
+
+void manualControlBtnmatrixCb(lv_obj_t *obj, lv_event_t event){
+    if(event == LV_EVENT_VALUE_CHANGED){
+        uint32_t id = *(int*)lv_event_get_data();
+        String txt = "Pressed " + (String)id;
+        LV_LOG_INFO( txt.c_str() );
+        uint8_t motor_id = id / 2;
+        MotorDirection direction = (id % 2) ? MotorDirection::dir_open : MotorDirection::dir_close;
+        motor_tickers[motor_id].detach();
+        xSemaphoreGive(motor_mutexes[motor_id]);
+        move_motor(motor_id, direction, 2000);
+    }
+}
+
+void lv_create_manual_control(lv_obj_t *tab){
+    lv_obj_t *btnm = lv_btnmatrix_create(tab, NULL);
+    static const char* btn_map[] = {
+        "M1 Zapri", "M1 Odpri", "\n",
+        "M2 Zapri", "M2 Odpri", "\n",
+        "M3 Zapri", "M3 Odpri", "\n",
+        "M4 Zapri", "M4 Odpri", "\n", ""
+    };
+    lv_btnmatrix_set_map(btnm, btn_map);
+    lv_obj_align(btnm, NULL, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_event_cb(btnm, manualControlBtnmatrixCb);
 }
 
 void b_en_cb(lv_obj_t *obj, lv_event_t event){

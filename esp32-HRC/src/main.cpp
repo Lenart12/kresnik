@@ -2,6 +2,7 @@
 
 #include <SPI.h>
 #include <EEPROM.h>
+#include <time.h>
 
 #include <globals.h>
 
@@ -72,7 +73,7 @@ void setup(){
 
 	// Load configuration
 	EEPROM.begin(sizeof(config));
-	#ifdef CLEAN_CONFIG
+	#if CLEAN_CONFIG == 0
 	EEPROM.get(0, config);
 	config.control.load_default();
 	EEPROM.put(0, config);
@@ -86,9 +87,6 @@ void setup(){
 	WiFi.begin(config.wifi_login.ssid, config.wifi_login.passwd);
 	LV_LOG_TRACE("Started WiFi");
 
-	// Start NTP
-	time_client.begin();
-	time_client.setTimeOffset(NTP_OFFSET);
 
 	// Start tasks
 	lv_task_create(wifi_status_task, 1000, LV_TASK_PRIO_LOW, NULL);
@@ -114,6 +112,7 @@ void setup(){
 	config.control.setup();
 
 	lv_main();
+	WiFi.scanNetworks(true);
 
 	LV_LOG_INFO("Setup complete");
 }
