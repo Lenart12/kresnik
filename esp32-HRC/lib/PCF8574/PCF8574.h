@@ -224,7 +224,7 @@ protected:
 	 *
 	 * @remarks Before reading current GPIO states, current _PIN variable value is moved to _oldPIN variable
 	 */
-	void readGPIO();
+	virtual void readGPIO();
 
 	/** 
 	 * Write value of _PORT variable to the GPIO
@@ -232,7 +232,7 @@ protected:
 	 * @remarks Only pin marked as OUTPUT are set, for INPUT pins their value are unchanged
 	 * @warning To work properly (and avoid any states conflicts) readGPIO() MUST be called before call this function !
 	 */
-	void updateGPIO();
+	virtual void updateGPIO();
 };
 
 #endif
