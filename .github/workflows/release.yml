@@ -1,0 +1,50 @@
+name: Build and Release project on tag push
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cache/pip
+          ~/.platformio/.cache
+        key: ${{ runner.os }}-pio
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install PlatformIO Core
+      run: pip install --upgrade platformio
+    
+    - name: Build PlatformIO project
+      run: |
+        cd ./buderus-controller
+        pio run
+        mv .pio/build/esp32dev/{firmware.bin,buderus-fw-${{ github.ref_name }}.bin}
+        mv .pio/build/esp32dev/{firmware.elf,buderus-fw-${{ github.ref_name }}.elf}
+
+    - name: Create new release with build artifact
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          ./buderus-controller/.pio/build/esp32dev/buderus-fw-*
+        token: ${{ secrets.GITHUB_TOKEN }}
+        tag_name: ${{ github.ref }}
+        name: Release ${{ github.ref_name}}
+        body: "Release ${{ github.ref_name }}"
+        
