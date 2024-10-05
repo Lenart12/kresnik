@@ -268,12 +268,11 @@ void HeatingController::process_heating()
     float outside_temp = get_temp(_sensor_outside_id);
     float furnace_temp = get_temp(_sensor_furnace_id);
     float dhw_storage_temp = get_temp(_sensor_dhw_storage_id);
+    float furnace_target = target_furnace_temp();
 
     // Watchdog: if any of the sensors is reading too high, turn off everything
-    if (outside_temp > 95 || furnace_temp > 95 || dhw_storage_temp > 95) {
-        char buffer[50];
-        sprintf(buffer, "Previsoka temperatura na senzorjih! %.1f %.1f %.1f", outside_temp, furnace_temp, dhw_storage_temp);
-        fatal_error(buffer);
+    if (outside_temp > 80 || furnace_temp > 80 || dhw_storage_temp > 80) {
+        fatal_error("Previsoka temperatura na senzorjih!");
         return;
     }
 
@@ -281,85 +280,108 @@ void HeatingController::process_heating()
     bool require_dhw_storage_pump = false;
     bool require_heating_circulation_pump = false;
 
-    switch (_heating_state) {
-        case HeatingState::Init:
-            set_status_led(StatusLed::SystemRunning, true);
-            switch_state(HeatingState::Idle);
-            break;
-        case HeatingState::Idle:
-            // Idle state, check if we need to heat something
-            // Relays:
-            //  - Furnace heater: OFF
-            //  - DHW storage pump: OFF
-            //  - Heating circulation pump: ON
+    for (bool rerun_state = true; rerun_state;) {
+        rerun_state = false;
+        require_heating = false;
+        require_dhw_storage_pump = false;
+        require_heating_circulation_pump = false;
 
-            require_heating_circulation_pump = _heating_circulation_enabled;
-
-            // 1. Check if DHW storage tank is too cold
-            if (dhw_storage_temp < _dhw_storage_min_temp) {
-                _furnace_heater_ongoing = furnace_temp < _dhw_storage_max_temp;
-                require_dhw_storage_pump = furnace_temp > dhw_storage_temp;
-                switch_state(HeatingState::HeatingDhwStorage);
-                break;
-            }
-            // 2. Check if furance is too cold
-            if (furnace_temp < target_furnace_temp() - _furnace_max_off) {
-                switch_state(HeatingState::HeatingFurnace);
-                break;
-            }
-            break;
-        case HeatingState::HeatingFurnace:
-            // Furnace is too cold, heat it until it reaches target temp
-            // Relays:
-            //  - Furnace heater: ON
-            //  - DHW storage pump: OFF
-            //  - Heating circulation pump: ON
-
-            require_heating = true;
-            require_heating_circulation_pump = _heating_circulation_enabled;
-
-            // 1. Check if furnace is too hot
-            if (furnace_temp >= target_furnace_temp()) {
+        switch (_heating_state) {
+            case HeatingState::Init:
+                set_status_led(StatusLed::SystemRunning, true);
                 switch_state(HeatingState::Idle);
-                break;
-            }
+                [[fallthrough]];
+            case HeatingState::Idle:
+                // Idle state, check if we need to heat something
+                // Relays:
+                //  - Furnace heater: OFF
+                //  - DHW storage pump: OFF
+                //  - Heating circulation pump: ON
 
-            break;
-        case HeatingState::HeatingDhwStorage:
-            // DHW storage tank is too cold, heat it until it reaches _dhw_storage_max_temp
-            // Heating is done by heating furnace tank until it reaches the interval [storage tank temp + 5C]
-            // and then turning on the pump to circulate the water
+                require_heating_circulation_pump = _heating_circulation_enabled;
 
-            // Relays:
-            //  - Furnace heater: when furnace temp is lower than storage temp
-            //  - DHW storage pump: when furnace temp is atleast 1c larger than storage temp (ignore <1c differences)
-            //  - Heating circulation pump: OFF
+                // Not needed here but set it anyways to show the target temp on the display
+                _furnace_heater_target_min = furnace_target - _furnace_max_off;
+                _furnace_heater_target_max = furnace_target;
 
-            // 1. Check if storage tank is too hot
-            if (dhw_storage_temp >= _dhw_storage_max_temp) {
-                switch_state(HeatingState::Idle);
-                break;
-            }
 
-            // 2. Heat or cool furnace in interval [max(furnace temp, dhw_storage_temp + 5C)]
-            if (_furnace_heater_ongoing) {
-                if (furnace_temp >= max(target_furnace_temp(), _dhw_storage_max_temp + 5)) {
-                    _furnace_heater_ongoing = false;
+                // 1. Check if DHW storage tank is too cold
+                if (dhw_storage_temp < _dhw_storage_min_temp) {
+                    _furnace_heater_ongoing = furnace_temp < _dhw_storage_max_temp;
+                    require_dhw_storage_pump = furnace_temp > dhw_storage_temp;
+                    switch_state(HeatingState::HeatingDhwStorage);
+                    rerun_state = true;
+                    break;
                 }
-            } else {
-                if (furnace_temp < max(target_furnace_temp() - _furnace_max_off, _dhw_storage_max_temp)) {
-                    _furnace_heater_ongoing = true;
+                // 2. Check if furance is too cold
+                if (furnace_temp < furnace_target - _furnace_max_off) {
+                    switch_state(HeatingState::HeatingFurnace);
+                    rerun_state = true;
+                    break;
                 }
-            }
-            require_heating = _furnace_heater_ongoing;
-            
-            // 3. Turn on pump when furnace temp is larger than storage temp
-            if (abs(furnace_temp - dhw_storage_temp) < 1)
-                require_dhw_storage_pump = _storage_pump_active;
-            else 
-                require_dhw_storage_pump = furnace_temp >= dhw_storage_temp + 1;
-            break;
+                break;
+            case HeatingState::HeatingFurnace:
+                // Furnace is too cold, heat it until it reaches target temp
+                // Relays:
+                //  - Furnace heater: ON
+                //  - DHW storage pump: OFF
+                //  - Heating circulation pump: ON
+
+                require_heating = true;
+                require_heating_circulation_pump = _heating_circulation_enabled;
+                _furnace_heater_target_min = furnace_target - _furnace_max_off;
+                _furnace_heater_target_max = furnace_target;
+
+                // 1. Check if furnace is too hot
+                if (furnace_temp >= _furnace_heater_target_max) {
+                    switch_state(HeatingState::Idle);
+                    break;
+                }
+
+                break;
+            case HeatingState::HeatingDhwStorage:
+                // DHW storage tank is too cold, heat it until it reaches _dhw_storage_max_temp
+                // Heating is done by heating furnace tank until it reaches the target temp of furnace or _dhw_storage_max_temp (whichever is higher)
+                // and then turning on the pump to circulate the water
+
+                // Relays:
+                //  - Furnace heater: when furnace temp is lower than storage temp
+                //  - DHW storage pump: when furnace temp is atleast 1c larger than storage temp (ignore <1c differences)
+                //  - Heating circulation pump: OFF
+
+                // 1. Check if storage tank is too hot
+                if (dhw_storage_temp >= _dhw_storage_max_temp) {
+                    switch_state(HeatingState::Idle);
+                    break;
+                }
+
+                // 2. Heat or cool furnace to reach target temp
+                _furnace_heater_target_min = max(furnace_target - _furnace_max_off, _dhw_storage_max_temp);
+                _furnace_heater_target_max = max(furnace_target, _dhw_storage_max_temp + 5);
+
+                if (_furnace_heater_ongoing) {
+                    if (furnace_temp >= _furnace_heater_target_max) {
+                        _furnace_heater_ongoing = false;
+                    }
+                } else {
+                    if (furnace_temp < _furnace_heater_target_min) {
+                        _furnace_heater_ongoing = true;
+                    }
+                }
+                require_heating = _furnace_heater_ongoing;
+                
+                // 3. Turn on pump when furnace temp is larger than storage temp
+                if (abs(furnace_temp - dhw_storage_temp) < 1)
+                    require_dhw_storage_pump = _storage_pump_active;
+                else 
+                    require_dhw_storage_pump = furnace_temp >= dhw_storage_temp + 1;
+                break;
+        }
     }
+    
+
+    // Only circulate heating water if current furnace temp is within the target range
+    if (require_heating_circulation_pump && abs(furnace_temp - furnace_target) > _furnace_max_off ) require_heating_circulation_pump = false;
 
     if (require_heating != _heating_active) set_relay(Relay::FurnaceHeater, require_heating);
     if (require_dhw_storage_pump != _storage_pump_active) set_relay(Relay::DhwStoragePump, require_dhw_storage_pump);
@@ -389,6 +411,7 @@ void HeatingController::switch_state(HeatingState next)
             set_status_led(StatusLed::StateHeatingDhwStorage, true);
             break;
     }
+    _last_heating_update = 0;
     _gui_last_update = 0;
 }
 

@@ -76,6 +76,9 @@ private:
     bool _storage_pump_active = false;
     bool _heating_circulation_active = false;
 
+    float _furnace_heater_target_min = 0;
+    float _furnace_heater_target_max = 0;
+
     void switch_state(HeatingState next);
     bool system_valid_for_control();
     void process_heating();
