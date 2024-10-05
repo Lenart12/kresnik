@@ -5,15 +5,14 @@
 
 const char* info_text[] = {
     "Buderus krmilnik",
-    "",
+    "https://github.com/Lenart12/kresnik",
     "Verzija: " BK_FW_VERSION_STR,
     "Avtor: Lenart Kos",
     "Kontakt: ",
     "    koslenart@gmail.com",
     "",
-    "Begunje pri Cerknici 2024",
     "",
-    "        https://github.com/Lenart12/kresnik",
+    "Begunje pri Cerknici 2024",
 };
 
 void GUI_METHOD(draw)() {
