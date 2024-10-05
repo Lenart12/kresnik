@@ -44,7 +44,8 @@ void draw_status_name(TFT_eSPI& tft) {
     }
     tft.setTextDatum(BR_DATUM);
     char buffer[10];
-    sprintf(buffer, " %d-%d/%d", status_offset + 1, i, status_count);
+    sprintf(buffer, "  %d-%d/%d", status_offset + 1, i, status_count);
+    tft.setTextColor(TFT_WHITE, TFT_BUDERUS_BLUE, true);
     tft.drawString(buffer, tft.width() - 35, tft.height() - 5);
 }
 
@@ -74,7 +75,7 @@ void GUI_METHOD(draw)() {
         sprintf(buffer, "%s", _valid_config ? "DA" : "NE");
     };
 
-    STATUS_LINE("Temp. zunaj") {
+    STATUS_LINE("Temperatura zunaj") {
         float temp = get_temp(_sensor_outside_id);
         if (std::isnan(temp)) {
             sprintf(buffer, "Napaka");
@@ -83,7 +84,7 @@ void GUI_METHOD(draw)() {
         }
     };
 
-    STATUS_LINE("Temp. peci") {
+    STATUS_LINE("Temperatura peči") {
         float temp = get_temp(_sensor_furnace_id);
         if (std::isnan(temp)) {
             sprintf(buffer, "Napaka");
@@ -92,7 +93,7 @@ void GUI_METHOD(draw)() {
         };
     };
 
-    STATUS_LINE("Temp. hranilnika") {
+    STATUS_LINE("Temperatura hranilnika") {
         float temp = get_temp(_sensor_dhw_storage_id);
         if (std::isnan(temp)) {
             sprintf(buffer, "Napaka");
@@ -110,7 +111,7 @@ void GUI_METHOD(draw)() {
                 sprintf(buffer, "Deluje");
                 break;
             case HeatingState::HeatingFurnace:
-                sprintf(buffer, "Gretje peci");
+                sprintf(buffer, "Gretje peči");
                 break;
             case HeatingState::HeatingDhwStorage:
                 sprintf(buffer, "Gretje hranilnika");
@@ -118,34 +119,34 @@ void GUI_METHOD(draw)() {
         }
     };
 
-    STATUS_LINE("Gretje peci") {
-        sprintf(buffer, "%s", _heating_active ? "DA" : "NE");
+    STATUS_LINE("Gorilnik") {
+        sprintf(buffer, "%s", _heating_active ? "Prižgan" : "Ugasnjen");
     };
 
-    STATUS_LINE("Crpalka hranilnika") {
-        sprintf(buffer, "%s", _storage_pump_active ? "DA" : "NE");
+    STATUS_LINE("Črpalka hranilnika") {
+        sprintf(buffer, "%s", _storage_pump_active ? "Prižgana" : "Ugasnjena");
     };
 
-    STATUS_LINE("Crpalka gretja") {
-        sprintf(buffer, "%s", _heating_circulation_active ? "DA" : "NE");
+    STATUS_LINE("Črpalka gretja") {
+        sprintf(buffer, "%s", _heating_circulation_active ? "Prižgana" : "Ugasnjena");
     };
 
-    STATUS_LINE("C. temp. peci") {
+    STATUS_LINE("Ciljna temp. peči") {
         sprintf(buffer, "%.1fC-%.1fC", target_furnace_temp() - _furnace_max_off, target_furnace_temp());
     };
 
-    STATUS_LINE("C. temp. hra.") {
+    STATUS_LINE("Ciljna temp. hranilnka") {
         sprintf(buffer, "%.1fC-%.1fC", _dhw_storage_min_temp, _dhw_storage_max_temp);
     };
 
     _tft.setTextDatum(BL_DATUM);
-    _tft.setTextColor(TFT_BLACK);
+    _tft.setTextColor(TFT_BLACK, TFT_BUDERUS_BLUE);
     _tft.drawString("< ", 5, _tft.height() - 5);
     _tft.setTextDatum(TR_DATUM);
-    _tft.setTextColor(TFT_WHITE);
+    _tft.setTextColor(TFT_WHITE, TFT_BUDERUS_BLUE);
     _tft.drawString("^ ", _tft.width() - 5, 20);
     _tft.setTextDatum(BR_DATUM);
-    _tft.setTextColor(TFT_YELLOW);
+    _tft.setTextColor(TFT_YELLOW, TFT_BUDERUS_BLUE);
     _tft.drawString("v ", _tft.width() - 5, _tft.height() - 10);
 
     _tft.setTextColor(TFT_WHITE, TFT_BUDERUS_BLUE);

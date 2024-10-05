@@ -24,6 +24,7 @@ private:
     // ##### DEVICES #####
 
     TFT_eSPI _tft;
+    TFT_eSprite _sprite {&_tft};
 
     enum class Button {
         Black,

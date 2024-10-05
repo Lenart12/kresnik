@@ -7,11 +7,11 @@ void draw_temps(TFT_eSPI& _tft, float* temps) {
     uint16_t y = 40;
     uint16_t x = _tft.width() - 5;
     _tft.setTextSize(3);
-    _tft.setTextColor(TFT_WHITE, TFT_BUDERUS_BLUE);
+    _tft.setTextColor(TFT_WHITE, TFT_BUDERUS_BLUE, true);
     _tft.setTextDatum(TR_DATUM);
     char buffer[10];
     for (int i = 0; i < 3; i++) {
-        sprintf(buffer, " %.1fC ", temps[i]);
+        sprintf(buffer, "  %.1fC ", temps[i]);
         _tft.drawString(buffer, x, y);
         y += _tft.fontHeight() + 5;
     }
@@ -21,7 +21,7 @@ uint8_t active_sensor_idx = 0;
 
 void GUI_METHOD(draw)() {
     _tft.fillScreen(TFT_BUDERUS_BLUE);
-    _tft.setTextColor(TFT_WHITE);
+    _tft.setTextColor(TFT_WHITE, TFT_BUDERUS_BLUE);
     _tft.setTextSize(3);
     _tft.setTextDatum(TC_DATUM);
     _tft.drawString(_set_sensor.name, _tft.width() / 2, 10);
@@ -37,9 +37,9 @@ void GUI_METHOD(draw)() {
     for (int i = 0; i < 3; i++) {
         if (i == active_sensor_idx) {
             _tft.fillRect(8, y - 2, _tft.width() - 16, _tft.fontHeight() + 4, TFT_WHITE);
-            _tft.setTextColor(TFT_BUDERUS_BLUE);
+            _tft.setTextColor(TFT_BUDERUS_BLUE, TFT_WHITE);
         } else {
-            _tft.setTextColor(TFT_WHITE);
+            _tft.setTextColor(TFT_WHITE, TFT_BUDERUS_BLUE);
         }
         int ds_id = 0;
         int dev_id = i;
@@ -55,13 +55,13 @@ void GUI_METHOD(draw)() {
 
     _tft.setTextSize(2);
     _tft.setTextDatum(TR_DATUM);
-    _tft.setTextColor(TFT_WHITE);
+    _tft.setTextColor(TFT_WHITE, TFT_BUDERUS_BLUE);
     _tft.drawString("^ ", _tft.width() - 5, 20);
     _tft.setTextDatum(BR_DATUM);
-    _tft.setTextColor(TFT_YELLOW);
+    _tft.setTextColor(TFT_YELLOW, TFT_BUDERUS_BLUE);
     _tft.drawString("v ", _tft.width() - 5, _tft.height() - 10);
     _tft.setTextDatum(BL_DATUM);
-    _tft.setTextColor(TFT_CYAN);
+    _tft.setTextColor(TFT_CYAN, TFT_BUDERUS_BLUE);
     _tft.drawString("OK", 5, _tft.height() - 5);
 }
 

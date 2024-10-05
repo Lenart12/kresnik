@@ -10,7 +10,7 @@ int current_step = 3;
 
 void draw_current_setting(TFT_eSPI& _tft, float val) {
     _tft.setTextSize(4);
-    _tft.setTextColor(TFT_BUDERUS_BLUE, TFT_WHITE);
+    _tft.setTextColor(TFT_BUDERUS_BLUE, TFT_WHITE, true);
     _tft.setTextDatum(MC_DATUM);
     _tft.fillSmoothCircle(temp_x, temp_y, _tft.fontHeight() * 2, TFT_WHITE);
     char _buffer[10];
@@ -20,18 +20,18 @@ void draw_current_setting(TFT_eSPI& _tft, float val) {
 
 void draw_current_step(TFT_eSPI& _tft) {
     _tft.setTextSize(2);
-    _tft.setTextColor(TFT_BLACK, TFT_BUDERUS_BLUE);
+    _tft.setTextColor(TFT_BLACK, TFT_BUDERUS_BLUE, true);
     _tft.setTextDatum(TC_DATUM);
     char _buffer[12];
     sprintf(_buffer, " +- %.1f ", steps[current_step]);
     _tft.drawString(_buffer, _tft.width() / 2, 70);
 
     _tft.setTextDatum(MC_DATUM);
-    _tft.setTextColor(TFT_WHITE, TFT_BUDERUS_BLUE);
+    _tft.setTextColor(TFT_WHITE, TFT_BUDERUS_BLUE, true);
     sprintf(_buffer, " -%.1f ", steps[current_step]);
     _tft.drawString(_buffer, _tft.width() / 8, temp_y);
 
-    _tft.setTextColor(TFT_YELLOW, TFT_BUDERUS_BLUE);
+    _tft.setTextColor(TFT_YELLOW, TFT_BUDERUS_BLUE, true);
     sprintf(_buffer, " +%.1f ", steps[current_step]);
     _tft.drawString(_buffer, _tft.width() / 8 * 7, temp_y);
 }
@@ -53,7 +53,7 @@ void GUI_METHOD(draw)() {
 
     _tft.setTextSize(3);
     _tft.setTextDatum(BL_DATUM);
-    _tft.setTextColor(TFT_CYAN);
+    _tft.setTextColor(TFT_CYAN, TFT_BUDERUS_BLUE);
     _tft.drawString("OK", 5, _tft.height() - 5);
 }
 

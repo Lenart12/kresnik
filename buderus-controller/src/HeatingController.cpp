@@ -48,6 +48,12 @@ void HeatingController::setup_devices() {
     _tft.setRotation(1);
     _tft.setTouch(TOUCH_CALIBRATION);
     _tft.fillScreen(TFT_BUDERUS_BLUE);
+    _tft.setTextColor(TFT_WHITE, TFT_BUDERUS_BLUE, true);
+    _tft.loadFont(Ubuntu_Regular18);
+    _sprite.loadFont(Ubuntu_Regular18);
+
+    _tft.setTextDatum(MC_DATUM);
+    _tft.drawString("Zagon sistema...", _tft.width() / 2, _tft.height() / 2);
 
     // Buttons
     for (uint8_t i = 0; i < sizeof(BTN_PINS) / sizeof(BTN_PINS[0]); i++) {

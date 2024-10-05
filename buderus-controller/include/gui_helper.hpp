@@ -7,3 +7,4 @@
     HeatingController::CONCAT_NAME(gui, page_name, type)
 #define GUI_METHOD(type) GUI_METHOD_(PAGE_NAME, type)
 
+#include "Ubuntu_Regular18.h"
