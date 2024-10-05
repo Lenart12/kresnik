@@ -8,11 +8,9 @@ int seconds_to_restart = 600;
 void GUI_METHOD(draw)() {
     _tft.fillScreen(TFT_RED);
     _tft.setTextColor(TFT_WHITE, TFT_BLACK, true);
-    _tft.setTextSize(3);
     _tft.setTextDatum(TC_DATUM);
     _tft.drawString("KRITIČNA NAPAKA", _tft.width() / 2, 10);
     _tft.setTextDatum(MC_DATUM);
-    _tft.setTextSize(1);
     _tft.drawString(_fatal_error_msg, _tft.width() / 2, _tft.height() / 2);
 }
 
@@ -27,9 +25,7 @@ void GUI_METHOD(update)() {
     char buffer[30];
     sprintf(buffer, " Ponovni zagon čez %ds ", seconds_to_restart--);
     _tft.setTextDatum(BC_DATUM);
-    _tft.setTextSize(2);
     _tft.drawString(buffer, _tft.width() / 2, _tft.height() - 10);
-    _tft.setTextSize(1);
     _tft.drawString("Pritisni gumb za takojšen restart", _tft.width() / 2, _tft.height() - 40);
     if (seconds_to_restart < 0) {
         ESP.restart();

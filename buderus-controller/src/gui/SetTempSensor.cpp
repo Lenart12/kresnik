@@ -6,7 +6,6 @@
 void draw_temps(TFT_eSPI& _tft, float* temps) {
     uint16_t y = 40;
     uint16_t x = _tft.width() - 5;
-    _tft.setTextSize(3);
     _tft.setTextColor(TFT_WHITE, TFT_BUDERUS_BLUE, true);
     _tft.setTextDatum(TR_DATUM);
     char buffer[10];
@@ -22,7 +21,6 @@ uint8_t active_sensor_idx = 0;
 void GUI_METHOD(draw)() {
     _tft.fillScreen(TFT_BUDERUS_BLUE);
     _tft.setTextColor(TFT_WHITE, TFT_BUDERUS_BLUE);
-    _tft.setTextSize(3);
     _tft.setTextDatum(TC_DATUM);
     _tft.drawString(_set_sensor.name, _tft.width() / 2, 10);
     _tft.setTextDatum(TL_DATUM);
@@ -53,7 +51,6 @@ void GUI_METHOD(draw)() {
         y += _tft.fontHeight() + 5;
     }
 
-    _tft.setTextSize(2);
     _tft.setTextDatum(TR_DATUM);
     _tft.setTextColor(TFT_WHITE, TFT_BUDERUS_BLUE);
     _tft.drawString("^ ", _tft.width() - 5, 20);

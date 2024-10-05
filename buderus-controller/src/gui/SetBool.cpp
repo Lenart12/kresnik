@@ -35,7 +35,6 @@ void draw_enable_disable(TFT_eSPI &_tft, bool enabled) {
 
 void GUI_METHOD(draw)() {
     _tft.fillScreen(TFT_BUDERUS_BLUE);
-    _tft.setTextSize(2);
     _tft.setTextDatum(TC_DATUM);
     _tft.setTextColor(TFT_WHITE, TFT_BUDERUS_BLUE);
     _tft.drawString(_set_bool.name, _tft.width() / 2, 10);

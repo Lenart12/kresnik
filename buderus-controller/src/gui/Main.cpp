@@ -58,11 +58,9 @@ void GUI_METHOD(draw)() {
     _tft.fillScreen(TFT_BUDERUS_BLUE);
     _tft.setTextColor(TFT_WHITE, TFT_BUDERUS_BLUE);
 
-    _tft.setTextSize(3);
     _tft.setTextDatum(TC_DATUM);
     _tft.drawString("Buderus krmilnik", _tft.width() / 2, 20);
     _tft.setTextDatum(BL_DATUM);
-    _tft.setTextSize(2);
 
     uint16_t x = 10;
     uint16_t y = _tft.height() -10;
@@ -80,7 +78,6 @@ void GUI_METHOD(draw)() {
     main_temp_x[1] = _tft.width() / 12 * 6;
     main_temp_x[2] = _tft.width() / 12 * 10;
 
-    _tft.setTextSize(2);
     _tft.setTextColor(TFT_WHITE, TFT_BUDERUS_BLUE);
     _tft.setTextDatum(BC_DATUM);
     y = _tft.height() / 2 - 40;
@@ -91,7 +88,6 @@ void GUI_METHOD(draw)() {
 
     main_temp_y = _tft.height() / 2;
 
-    _tft.setTextSize(1);
     main_relay_y = _tft.height() / 2 + 75;
     y = main_relay_y - 15;
     _tft.drawString("Gorilnik", main_temp_x[0], y);
@@ -100,7 +96,6 @@ void GUI_METHOD(draw)() {
 
     #ifdef SIMULATE_TEMPS
     _tft.setTextColor(TFT_RED, TFT_BUDERUS_BLUE);
-    _tft.setTextSize(3);
     _tft.drawString("SIMULACIJA", _tft.width() / 2, 60);
     #endif
 

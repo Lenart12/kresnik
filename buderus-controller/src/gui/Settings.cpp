@@ -30,7 +30,6 @@ void draw_setting_line(TFT_eSPI& _tft, SettingsLine& setting, uint16_t y, uint16
 }
 
 void draw_setting_labels(TFT_eSPI &_tft) {
-    _tft.setTextSize(2);
     _tft.setTextDatum(TL_DATUM);
 
     char buffer[20];
@@ -58,7 +57,6 @@ void draw_setting_labels(TFT_eSPI &_tft) {
 
 void swap_active_setting(TFT_eSPI &_tft, int old_setting, int new_setting) {
     char buffer[20];
-    _tft.setTextSize(2);
 
     // Draw old setting, now white on blue
     uint16_t old_y = 40 + (old_setting - setting_offset) * (_tft.fontHeight() + 5);
@@ -69,7 +67,6 @@ void swap_active_setting(TFT_eSPI &_tft, int old_setting, int new_setting) {
     uint16_t new_y = 40 + (new_setting - setting_offset) * (_tft.fontHeight() + 5);
     draw_setting_line(_tft, settings[new_setting], new_y, TFT_BUDERUS_BLUE, TFT_WHITE);
 
-    _tft.setTextSize(2);
     _tft.setTextDatum(BR_DATUM);
     _tft.setTextColor(TFT_WHITE, TFT_BUDERUS_BLUE, true);
     char _buffer[10];
@@ -80,11 +77,9 @@ void swap_active_setting(TFT_eSPI &_tft, int old_setting, int new_setting) {
 void GUI_METHOD(draw)() {
     _tft.fillScreen(TFT_BUDERUS_BLUE);
     _tft.setTextColor(TFT_WHITE, TFT_BUDERUS_BLUE);
-    _tft.setTextSize(3);
     _tft.setTextDatum(TC_DATUM);
     _tft.drawString("Nastavitve", _tft.width() / 2, 10);
     _tft.setTextDatum(TL_DATUM);
-    _tft.setTextSize(2);
 
     max_settings_on_screen = (_tft.height() - 60) / (_tft.fontHeight() + 5);
 

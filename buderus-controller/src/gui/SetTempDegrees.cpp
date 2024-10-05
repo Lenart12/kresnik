@@ -9,7 +9,6 @@ float steps[] = {0.5, 1, 2, 5, 10};
 int current_step = 3;
 
 void draw_current_setting(TFT_eSPI& _tft, float val) {
-    _tft.setTextSize(4);
     _tft.setTextColor(TFT_BUDERUS_BLUE, TFT_WHITE, true);
     _tft.setTextDatum(MC_DATUM);
     _tft.fillSmoothCircle(temp_x, temp_y, _tft.fontHeight() * 2, TFT_WHITE);
@@ -19,7 +18,6 @@ void draw_current_setting(TFT_eSPI& _tft, float val) {
 }
 
 void draw_current_step(TFT_eSPI& _tft) {
-    _tft.setTextSize(2);
     _tft.setTextColor(TFT_BLACK, TFT_BUDERUS_BLUE, true);
     _tft.setTextDatum(TC_DATUM);
     char _buffer[12];
@@ -39,10 +37,8 @@ void draw_current_step(TFT_eSPI& _tft) {
 void GUI_METHOD(draw)() {
     _tft.fillScreen(TFT_BUDERUS_BLUE);
     _tft.setTextColor(TFT_WHITE, TFT_BUDERUS_BLUE);
-    _tft.setTextSize(2);
     _tft.setTextDatum(TC_DATUM);
     _tft.drawString("Nastavitev temperature", _tft.width() / 2, 10);
-    _tft.setTextSize(2);
     _tft.drawString(_set_temp.name, _tft.width() / 2, 40);
 
     temp_x = _tft.width() / 2;
@@ -51,7 +47,6 @@ void GUI_METHOD(draw)() {
     draw_current_setting(_tft, *_set_temp.setting);
     draw_current_step(_tft);
 
-    _tft.setTextSize(3);
     _tft.setTextDatum(BL_DATUM);
     _tft.setTextColor(TFT_CYAN, TFT_BUDERUS_BLUE);
     _tft.drawString("OK", 5, _tft.height() - 5);

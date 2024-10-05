@@ -34,7 +34,6 @@ void draw_status_value(TFT_eSPI& tft) {
 void draw_status_name(TFT_eSPI& tft) {
     tft.setTextDatum(TL_DATUM);
     tft.setTextColor(TFT_WHITE, TFT_BUDERUS_BLUE);
-    tft.setTextSize(2);
     uint16_t y = 40;
     int i = status_offset;
     for (i = status_offset; i < min(status_count, status_offset + max_status_per_screen); i++) {
@@ -53,9 +52,7 @@ void GUI_METHOD(draw)() {
     _tft.fillScreen(TFT_BUDERUS_BLUE);
     _tft.setTextColor(TFT_WHITE, TFT_BUDERUS_BLUE);
     _tft.setTextDatum(TC_DATUM);
-    _tft.setTextSize(3);
     _tft.drawString("Status", _tft.width() / 2, 10);
-    _tft.setTextSize(2);
 
     max_status_per_screen = (_tft.height() - 60) / (_tft.fontHeight() + 5);
 

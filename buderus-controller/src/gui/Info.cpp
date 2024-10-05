@@ -19,16 +19,13 @@ void GUI_METHOD(draw)() {
     _tft.fillScreen(TFT_BUDERUS_BLUE);
     _tft.setTextColor(TFT_WHITE, TFT_BUDERUS_BLUE);
 
-    _tft.setTextSize(2);
     _tft.setTextDatum(TL_DATUM);
     uint16_t y = 10;
     for (int i = 0; i < sizeof(info_text) / sizeof(info_text[0]); i++) {
-        if (i == 8) _tft.setTextSize(1);
         _tft.drawString(info_text[i], 10, y);
         y += _tft.fontHeight() + 5;
     }
 
-    _tft.setTextSize(3);
     _tft.setTextDatum(BL_DATUM);
     uint16_t x = 5;
     _tft.setTextColor(TFT_BLACK);
